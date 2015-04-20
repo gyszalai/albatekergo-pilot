@@ -1,0 +1,32 @@
+{
+    "name": "albatekergo-pilot",
+    "version": "0.1.0",
+    "authors": [
+        "Gyula Szalai <gyszalai@gmail.com>"
+    ],
+    "description": "Albatekergő időpontfoglalás pilot",
+    "main": "app.js",
+    "keywords": [
+        "angular",
+        "bootstrap",
+        "express",
+        "nodejs",
+        "nedb"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "angular": "^1.3.0",
+        "angular-strap": "^2.2.0",
+        "angular-route": "^1.3.0",
+        "angular-animate": "^1.3.0",
+        "bootstrap": "^3.3.0"
+    }
+}

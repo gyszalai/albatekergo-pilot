@@ -4,7 +4,7 @@
  * @param trainingDayDb The NeDB database where trainingdays are stored
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-TrainingDayProvider = function(trainingDayDb, logger) {
+TrainingDayService = function(trainingDayDb, logger) {
     this.db = trainingDayDb;
     this.defaultMaxAttendees = 11;
     this.logger = logger;
@@ -15,7 +15,7 @@ TrainingDayProvider = function(trainingDayDb, logger) {
  * @param callback Callback
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-TrainingDayProvider.prototype.getAll = function ( callback ) {
+TrainingDayService.prototype.getAll = function ( callback ) {
     this.db.find({}, function(err, result) {
         if(err || !result) callback(err);
         else callback(null, result);
@@ -27,7 +27,7 @@ TrainingDayProvider.prototype.getAll = function ( callback ) {
  * @param id The unique id of the instance
  * @param callback Callback
  */
-TrainingDayProvider.prototype.find = function(id, callback ){
+TrainingDayService.prototype.find = function(id, callback ){
     this.db.find({_id: id}, function(err, result){
         if(err) callback(err);
         else callback(null, result);
@@ -40,7 +40,7 @@ TrainingDayProvider.prototype.find = function(id, callback ){
  * @param callback Callback
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-TrainingDayProvider.prototype.insert = function( trainingDay, callback ) {
+TrainingDayService.prototype.insert = function( trainingDay, callback ) {
     if (!trainingDay.maxAttendees) {
         trainingDay.maxAttendees = this.defaultMaxAttendees;
     }
@@ -57,7 +57,7 @@ TrainingDayProvider.prototype.insert = function( trainingDay, callback ) {
  * @param callback Callback
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-TrainingDayProvider.prototype.addNewAttendee = function( trainingDayId, attendee, callback ) {
+TrainingDayService.prototype.addNewAttendee = function( trainingDayId, attendee, callback ) {
 
     var db = this.db;
     var logger = this.logger;
@@ -84,4 +84,4 @@ TrainingDayProvider.prototype.addNewAttendee = function( trainingDayId, attendee
     });
 };
 
-module.exports = TrainingDayProvider;
+module.exports = TrainingDayService;

@@ -1,7 +1,13 @@
+/**
+ * Module class constructor.
+ * @constructor
+ * @param userDb The NeDB database where users are stored
+ * @author Gyula Szalai <gyszalai@gmail.com>
+ */
 UserService = function(userDb, logger) {
     this.db = userDb;
     this.logger = logger;
-}
+};
 
 /**
  * Return all instances
@@ -28,16 +34,31 @@ UserService.prototype.find = function(id, callback ){
 };
 
 /**
- * Inserts a new instance into the database
- * @param user The instance to be inserted
+ * Inserts a new instance into the database if it does not exist yet, otherwise updates the existing instance
+ * 
+ * @param user The instance to be inserted/updated
  * @param callback Callback
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-UserService.prototype.insert = function( user, callback ) {
-    this.db.insert(user, function(err, saved){
-        if(err) callback(err);
-        else callback(null, saved);
+UserService.prototype.insertOrUpdate = function( user, callback ) {
+    var logger = this.logger;
+    var db = this.db;
+    this.db.find({_id: user._id}, function(err, existingUser) {
+        if (!existingUser) {
+            logger.debug("User does not exist yet, inserting");
+            db.insert(user, function(err, saved){
+                if(err) callback(err);
+                else callback(null, saved);
+            });
+        } else {
+            logger.debug("User already exists, updating");
+            db.update({_id: user._id}, user, function(err, saved){
+                if(err) callback(err);
+                else callback(null, user);
+            });
+        }
     });
+    
 };
 
 module.exports = UserService;

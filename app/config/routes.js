@@ -1,24 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
-//var trainingday1 = {
-//    date: '2015-04-11',
-//    attendees: [
-//        {name: 'Kovács József', email: 'kovacsjozsef@gmail.com'},
-//        {name: 'Nagy János', email: 'nagyjanos@gmail.com'},
-//    ]
-//};
-//var trainingday2 = {
-//    date: '2015-04-12',
-//    attendees: [
-//        {name: 'Kovács Péter', email: 'kovacspater@gmail.com'},
-//        {name: 'Nagy Istvány', email: 'nagyistvan@gmail.com'},
-//    ]
-//};
-//
-//var trainingdays = [trainingday1, trainingday2];
-
 module.exports = function (config, logger, trainingDayService) {
+
+    /**  Middleware to check if a user is logged in */
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) { 
+            return next(); 
+        } else {
+            res.redirect('/');
+        }
+    }
+
+    router.use(isLoggedIn);
 
     router.route('/trainingdays')
         .get(function (req, res) {

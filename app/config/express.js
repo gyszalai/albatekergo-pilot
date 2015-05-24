@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Express.JS configuration
  */
@@ -34,13 +36,13 @@ module.exports = function (port, app, routes, config, userService, logger) {
     
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        logger.warn("****************** serializeUser, user:", user);
+        logger.warn("serializeUser, user:", user);
         done(null, user._id);
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        logger.warn("****************** deserializeUser, id:", id);
+        logger.warn("deserializeUser, id:", id);
         userService.find(id, function(err, user) {
             done(err, user);
         });

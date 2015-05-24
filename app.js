@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Example REST API + simple web server
  * User: Gyula Szalai <gyszalai@gmail.com>
@@ -15,13 +17,11 @@ logger.info("Env: " + env);
 
 var Datastore = require('nedb');
 
-var TrainingDayService = require('./app/services/TrainingDayService');
-var UserService = require('./app/services/UserService');
-
 var trainingDayDb = new Datastore({ filename: config.dbRoot + '/trainingDay.db', autoload: true });
 var userDb = new Datastore({ filename: config.dbRoot + '/user.db', autoload: true });
-var trainingDayService = new TrainingDayService(trainingDayDb, logger);
-var userService = new UserService(userDb, logger);
+
+var trainingDayService = require('./app/services/TrainingDayService')(trainingDayDb, logger);
+var userService = require('./app/services/UserService')(userDb, logger);
 
 var app = express();
 var routes = require('./app/config/routes')(config, logger, trainingDayService);
@@ -31,4 +31,3 @@ require('./app/config/express')(port, app, routes, config, userService, logger);
 
 logger.info("Listening on: " + port);
 app.listen(port);
-

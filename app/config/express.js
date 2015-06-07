@@ -70,12 +70,14 @@ module.exports = function (port, app, routes, config, userService, logger) {
     // Google auth callback URL.
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/profile',
-            failureRedirect: '/' 
-        }));
+            successRedirect: '#/Calendar', 
+            failureRedirect: '#/LoginFailed' 
+        })
+    );
 
     // Show user profile
     app.get('/profile', function(req, res) {
+        logger.info("Sending user: ", JSON.stringify(req.user));
         res.send(req.user);
     });
 
@@ -84,7 +86,7 @@ module.exports = function (port, app, routes, config, userService, logger) {
         if (req.isAuthenticated()) { 
             return next(); 
         } else {
-            res.redirect('/');
+            res.status(401).send('Not authenticated');
         }
     }
 

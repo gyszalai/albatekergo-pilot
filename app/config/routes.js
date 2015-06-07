@@ -8,7 +8,7 @@ module.exports = function (config, logger, trainingDayService) {
         if (req.isAuthenticated()) { 
             return next(); 
         } else {
-            res.redirect('/');
+            res.status(401).send('Not authenticated');
         }
     }
 

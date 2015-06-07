@@ -30,7 +30,7 @@ module.exports = function(userDb, logger) {
          * @param callback Callback
          */
         find: function find(id, callback ){
-            db.find({_id: id}, function(err, result){
+            db.findOne({_id: id}, function(err, result){
                 if(err) callback(err);
                 else callback(null, result);
             });

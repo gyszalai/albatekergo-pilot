@@ -1,80 +1,87 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>ALBATEKERGŐ pilot</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <title>ALBATEKERGŐ pilot</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-theme.min.css">
+        
+        <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css">
 
-    <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+        <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular-route/angular-route.js"></script>
-    <script src="lib/angular-animate/angular-animate.js"></script>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular-route/angular-route.js"></script>
+        <script src="lib/angular-animate/angular-animate.js"></script>
 
-    <script src="lib/angular-strap/dist/angular-strap.min.js"></script>
-    <script src="lib/angular-strap/dist/angular-strap.tpl.min.js"></script>
+        <script src="lib/angular-strap/dist/angular-strap.min.js"></script>
+        <script src="lib/angular-strap/dist/angular-strap.tpl.min.js"></script>
 
-    <!--<link rel="stylesheet" href="app.css">-->
-    <script src="js/albatekergo.js"></script>
-    <script src="js/navbar.ctrl.js"></script>
+        <script src="lib/moment/min/moment.min.js"></script>
+        <script src="lib/moment/locale/hu.js"></script>
+        
+        <link rel="stylesheet" href="lib/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min.css">
+        <script src="lib/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.min.js"></script>
 
-    <!-- Navbar padding fix for responsive design -->
-    <style type="text/css">
-        @media (min-width: 979px) {
-            body {
-                padding-top: 60px;
-            }
-        }
-    </style>
+        <!--<link rel="stylesheet" href="app.css">-->
+        <script src="js/albatekergo.js"></script>
+        <script src="js/navbar.ctrl.js"></script>
+        <script src="js/home.ctrl.js"></script>
+        <script src="js/calendar.ctrl.js"></script>
+        <script src="js/calendar.directive.js"></script>
+        <script src="js/user.service.client.js"></script>
+        
+        <link rel="stylesheet" href="css/albatekergo.css">
+        <link rel="stylesheet" href="css/calendar.css">
+        
+    </head>
+    <body ng-app="AlbatekergoMain">
 
-</head>
-<body ng-app="AlbatekergoMain" ng-controller="MainController as main">
+        <nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController as navbar">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" style="padding: 0 15px 0 15px;" href="#"><img alt="logo" style="max-height: 50px;" src="images/alba_tekergo_logo.jpg"></a>
+                </div>
 
-<nav class="navbar navbar-default" role="navigation" bs-navbar>
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#">Albatekergő</a>
-    </div>
-    <ul class="nav navbar-nav">
-        <li data-match-route="/$"><a href="#/">Home</a></li>
-        <li data-match-route="/page-one"><a href="#/page-one">Page One</a></li>
-        <li data-match-route="/page-two.*"><a href="#/page-two/sub-a">Page Two</a></li>
-    </ul>
-    <ul class="nav pull-right">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ main.user ? main.user.fullName : 'None'}}<b
-                    class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="#/Logout">Logout</a></li>
-                <li><a href="#/Profile">My profile</a></li>
-            </ul>
-        </li>
-    </ul>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li ng-show="main.user.isAdmin" role="presentation"><a href="#">Adminisztráció <span class="sr-only">(current)</span></a></li>
+                        <li role="presentation"><a href="#/Calendar">Helyfoglalás</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-show="!navbar.user" ><a class="btn btn-inverse pull-right" href="/auth/google">Google bejelentkezés</a></li>
+                        <li ng-show="navbar.user" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{navbar.user.displayName}} <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#/Stats">Statisztikák</a></li>
+                                <li><a href="#/Profile">Profilom</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#/Logout">Kijelentkezés</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
 
-    <a class="btn btn-inverse pull-right">Login</a>
-    <a class="btn btn-inverse pull-right">HU</a>
-    <a class="btn btn-inverse pull-right">EN</a>
-
-</nav>
-
-<div class="container-fluid">
-    <div class="row-fluid">
-        <ul class="well span2 nav nav-list">
-            <li class="nav-header">Menu header</li>
-            <li class="active"><a href="#/">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li><a href="/auth/google">Sign In with Google</a></li>
-
-        </ul>
-
-        <div class="fadein well span10" ng-view=""></div>
-    </div>
-</div>
-
-
-</body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 main">
+                    <div class="fadein" ng-view=""></div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
 </html>

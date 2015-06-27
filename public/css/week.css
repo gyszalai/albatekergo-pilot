@@ -1,0 +1,116 @@
+.border-box {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+week {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background: white;
+  width: 100%;
+  height: 65%;
+  border: solid 1px #cccccc;
+  margin-bottom: 10px;
+}
+week > div.week-header {
+  float: left;
+  width: 100%;
+  background: #2875c7;
+  height: 40px;
+  color: white;
+}
+week > div.week-header > * {
+  height: 40px;
+  line-height: 40px !important;
+  display: inline-block;
+  vertical-align: middle;
+}
+week > div.week-header > i {
+  float: left;
+  width: 40px;
+  font-size: 1.125em;
+  font-weight: bold;
+  position: relative;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding: 0 10px;
+  cursor: pointer;
+}
+week > div.week-header > i.fa-angle-left {
+  text-align: left;
+}
+week > div.week-header > i.fa-angle-right {
+  text-align: right;
+  margin-left: -40px;
+}
+week > div.week-header > span {
+  float: left;
+  width: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding-left: 50px;
+  margin-left: -40px;
+  text-align: center;
+  padding-right: 40px;
+  color: inherit;
+}
+week > div.week {
+  float: left;
+  width: 100%;
+  border-top: solid 1px #cccccc;
+}
+week > div.week:first-child {
+  border-top: none;
+}
+week > div.week > span.day {
+  float: left;
+  width: 14.28571429%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-left: solid 1px #cccccc;
+  font-size: 0.75em;
+  text-align: center;
+  height: 300px;
+  display: block;
+  vertical-align: top;
+  background: white;
+  cursor: pointer;
+  color: black;
+}
+week > div.week > span.day:first-child {
+  border-left: none;
+}
+week > div.week > span.day.today {
+  background: #E3F2FF;
+}
+week > div.week > span.day.trainingDay {
+  background: #A0E0A0;
+}
+week > div.week > span.day.different-month {
+  color: #C0C0C0;
+}
+week > div.week > span.day.selected {
+  background: #2875c7;
+  color: white;
+}
+week > div.week > span.day > div.attendees {
+  display: block;
+  margin-top: 5px;
+}
+week > div.week > span.day > div.attendees > div.attendee {
+  display: block;
+  list-style: none;
+  height: 20px;
+}
+week > div.week.names > span {
+  height: 45px;
+  display: inline-block;
+  vertical-align: middle;
+  color: #2875c7;
+  font-weight: bold;
+  padding-top: 5px;
+}
+/*# sourceMappingURL=week.css.map */

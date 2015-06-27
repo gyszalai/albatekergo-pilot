@@ -1,7 +1,7 @@
 /**
  * Created by gyszalai on 10/04/15.
  */
-var albatekergoApp = angular.module('AlbatekergoMain', ['mwl.calendar', 'ngRoute', 'ngAnimate', 'mgcrea.ngStrap']);
+var albatekergoApp = angular.module('AlbatekergoMain', ['ngRoute', 'ngAnimate', 'mgcrea.ngStrap']);
 
 albatekergoApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -26,6 +26,10 @@ albatekergoApp.config(['$routeProvider', function($routeProvider) {
             controller: 'CalendarController',
             templateUrl: 'partials/Calendar.html'
         })
+        .when('/Week', {
+            controller: 'WeekController',
+            templateUrl: 'partials/Week.html'
+        })
         .otherwise({
             redirectTo: '/Home'
         });
@@ -38,7 +42,7 @@ albatekergoApp.config(function ($navbarProvider) {
     });
 });
 
-albatekergoApp.config(function (moment) {
+albatekergoApp.config(function () {
     moment.locale('en', {
         week : {
           dow : 1 // Monday is the first day of the week

@@ -23,19 +23,19 @@
         <script src="lib/moment/min/moment.min.js"></script>
         <script src="lib/moment/locale/hu.js"></script>
         
-        <link rel="stylesheet" href="lib/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min.css">
-        <script src="lib/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.min.js"></script>
-
-        <!--<link rel="stylesheet" href="app.css">-->
         <script src="js/albatekergo.js"></script>
         <script src="js/navbar.ctrl.js"></script>
         <script src="js/home.ctrl.js"></script>
         <script src="js/calendar.ctrl.js"></script>
         <script src="js/calendar.directive.js"></script>
+        <script src="js/week.ctrl.js"></script>
+        <script src="js/week.directive.js"></script>
         <script src="js/user.service.client.js"></script>
+        <script src="js/trainingday.service.client.js"></script>
         
         <link rel="stylesheet" href="css/albatekergo.css">
         <link rel="stylesheet" href="css/calendar.css">
+        <link rel="stylesheet" href="css/week.css">
         
     </head>
     <body ng-app="AlbatekergoMain">
@@ -57,7 +57,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li ng-show="main.user.isAdmin" role="presentation"><a href="#">Adminisztráció <span class="sr-only">(current)</span></a></li>
-                        <li role="presentation"><a href="#/Calendar">Helyfoglalás</a></li>
+                        <li role="presentation"><a href="#/Week">Helyfoglalás</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li ng-show="!navbar.user" ><a class="btn btn-inverse pull-right" href="/auth/google">Google bejelentkezés</a></li>

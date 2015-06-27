@@ -1,0 +1,27 @@
+<div class="week-header">
+    <i class="fa fa-angle-left" ng-click="previous()"></i>
+    <span>{{days[0].date.format("YYYY. MMMM. DD.")}} - {{days[6].date.format("YYYY. MMMM. DD.")}}</span>
+    <i class="fa fa-angle-right" ng-click="next()"></i>
+</div>
+<div class="week names">
+    <span class="day">H<br/>{{days[0].number}}</span>
+    <span class="day">K<br/>{{days[1].number}}</span>
+    <span class="day">Sz<br/>{{days[2].number}}</span>
+    <span class="day">Cs<br/>{{days[3].number}}</span>
+    <span class="day">P<br/>{{days[4].number}}</span>
+    <span class="day">Sz<br/>{{days[5].number}}</span>
+    <span class="day">V<br/>{{days[6].number}}</span>
+</div>
+
+<div class="week">
+    <span class="day"
+          ng-class="{ today: day.isToday, trainingDay: day.isTrainingDay, selected: day.date.isSame(selected) }" 
+          ng-click="select(day)" 
+          ng-repeat="day in days">
+    
+        <div class="attendees">
+            <div class="attendee" ng-repeat="attendee in day.attendees">{{attendee.email}}</div>
+        </div>
+    </span>
+    
+</div>

@@ -78,6 +78,18 @@ module.exports = function(trainingDayDb, logger) {
                   callback();
               }
            });
-       }
+       },
+       /**
+        * Removes all attendees' e-mail addresses from the given training day
+        * @param {type} trainingDay The training day
+        */
+        removeEmailAddresses: function removeEmailAddresses(trainingDay) {
+            if (trainingDay.attendees) {
+                trainingDay.attendees.forEach(function(attendee) {
+                    attendee.email = null;
+                });
+            }
+        }
+       
     };
 };

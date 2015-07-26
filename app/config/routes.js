@@ -11,12 +11,19 @@ module.exports = function (config, logger, trainingDayService) {
             res.status(401).send('Not authenticated');
         }
     }
-
+    
     router.use(isLoggedIn);
 
     router.route('/trainingdays')
         .get(function (req, res) {
             trainingDayService.getAll(function(err, trainingDays) {
+                if (!req.user.isAdmin) {
+                    if (trainingDays) {
+                        trainingDays.forEach(function(trainingDay) {
+                            trainingDayService.removeEmailAddresses(trainingDay);
+                        });
+                    }
+                }
                 res.json(trainingDays);
             });
         })
@@ -35,6 +42,9 @@ module.exports = function (config, logger, trainingDayService) {
                 if (err) {
                     res.json(err);
                 } else if (trainingDay) {
+                    if (!req.user.isAdmin) {
+                        trainingDayService.removeEmailAddresses(trainingDay);
+                    }
                     res.json(trainingDay);
                 } else {
                     res.status(404);

@@ -87,13 +87,10 @@ week > div.week > span.day.today {
   background: #E3F2FF;
 }
 week > div.week > span.day.trainingDay {
-  background: #A0E0A0;
-}
-week > div.week > span.day.different-month {
-  color: #C0C0C0;
+  background: #CFECCF;
 }
 week > div.week > span.day.selected {
-  background: #2875c7;
+  background: #CBE1E9;
   color: white;
 }
 week > div.week > span.day > div.attendees {
@@ -104,6 +101,14 @@ week > div.week > span.day > div.attendees > div.attendee {
   display: block;
   list-style: none;
   height: 20px;
+}
+week > div.week > span.day > div.attendees > div.attendee.freeSlot {
+  color: green;
+  font-weight: 700;
+}
+week > div.week > span.day > div.attendees > div.attendee.reservedSlot {
+  color: red;
+  font-weight: 700;
 }
 week > div.week.names > span {
   height: 45px;

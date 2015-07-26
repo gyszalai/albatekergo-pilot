@@ -20,8 +20,15 @@ app.directive("week", ['TrainingDayService', '$log', '$modal', function (Trainin
             scope.select = function (day) {
                 scope.selected = day.date;
                 console.log("daySelected", day);
-                var dayModal = $modal({title: 'My Title', content: 'My Content', show: true});
-                console.log("dayModal", dayModal);
+                if (day.isTrainingDay) {
+                    if (day.maxAttendees > day.attendees.length) {
+                        showReserveSlotModal(scope, $modal, day);
+                    } else {
+                        showNoMoreSlotsModal($modal, day);
+                    }
+                } else {
+                    console.log("Not a training day: ", day.date);
+                }
             };
 
             scope.next = function () {
@@ -78,6 +85,12 @@ app.directive("week", ['TrainingDayService', '$log', '$modal', function (Trainin
                             $log.debug("found: ", trainingDay);
                             day.isTrainingDay = true;
                             day.maxAttendees = trainingDay.maxAttendees;
+                            // Free slots are represented as an array containing numbers
+                            var freeSlots = [];
+                            for(var i=0 ; i < (day.maxAttendees - day.attendees.length); i++) {
+                              freeSlots.push(i);
+                            }
+                            day.freeSlots = freeSlots;
                             day._id = trainingDay._id;
                         }
                     });
@@ -88,6 +101,34 @@ app.directive("week", ['TrainingDayService', '$log', '$modal', function (Trainin
             });
   
     }
+    
+    function showReserveSlotModal(scope, $modal, day) {
+        
+        function ReserveSlotModalController($scope) {
+            $scope.reserveSlot = function() {
+                console.log("RESERVE SLOT: ", day.date);
+                $scope.$hide();
+            };
+        }
+        ReserveSlotModalController.$inject = ['$scope'];
+        var reserveSlotModal = $modal({
+            controller: ReserveSlotModalController, 
+            title: 'Edzésnap ' + day.date.format("YYYY. MMM. DD.") , 
+            templateUrl: 'templates/week-reserve-slot-modal-tpl.html', 
+            show: false
+        });
+        
+        reserveSlotModal.$promise.then(reserveSlotModal.show);
+    }
+    
+    function showNoMoreSlotsModal($modal, day) {
+        var noMoreSlotsModal = $modal({
+            title: 'Edzésnap ' + day.date.format("YYYY. MMM. DD."), 
+            content: 'Sajnos erre a napra már nem tudsz helyet foglalni', 
+            show: true
+        });
+    }
+    
     
 }]);
 

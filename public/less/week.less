@@ -102,15 +102,11 @@ week {
             }
             
             &.trainingDay {
-                background:#A0E0A0;
-            }
-            
-            &.different-month {
-                color:#C0C0C0;
+                background:#CFECCF;
             }
             
             &.selected {
-                background:@secondary-colour;
+                background:#CBE1E9;
                 color:white;
             }
             
@@ -122,6 +118,17 @@ week {
                     display: block;
                     list-style: none;
                     height: 20px;
+                    
+                    &.freeSlot {
+                        color:green;
+                        font-weight: 700;
+                    }
+                    
+                    &.reservedSlot {
+                        color:red;
+                        font-weight: 700;
+                    }
+                    
                 }
             }
             

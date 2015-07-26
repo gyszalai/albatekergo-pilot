@@ -4,13 +4,13 @@
     <i class="fa fa-angle-right" ng-click="next()"></i>
 </div>
 <div class="week names">
-    <span class="day">H<br/>{{days[0].number}}</span>
-    <span class="day">K<br/>{{days[1].number}}</span>
-    <span class="day">Sz<br/>{{days[2].number}}</span>
-    <span class="day">Cs<br/>{{days[3].number}}</span>
-    <span class="day">P<br/>{{days[4].number}}</span>
-    <span class="day">Sz<br/>{{days[5].number}}</span>
-    <span class="day">V<br/>{{days[6].number}}</span>
+    <span class="day">H<br/><i ng-show="days[0].isTrainingDay" class="fa fa-heartbeat"></i>&nbsp;{{days[0].number}}</span>
+    <span class="day">K<br/><i ng-show="days[1].isTrainingDay" class="fa fa-heartbeat"></i>&nbsp;{{days[1].number}}</span>
+    <span class="day">Sz<br/><i ng-show="days[2].isTrainingDay" class="fa fa-heartbeat"></i>&nbsp;{{days[2].number}}</span>
+    <span class="day">Cs<br/><i ng-show="days[3].isTrainingDay" class="fa fa-heartbeat"></i>&nbsp;{{days[3].number}}</span>
+    <span class="day">P<br/><i ng-show="days[4].isTrainingDay" class="fa fa-heartbeat"></i>&nbsp;{{days[4].number}}</span>
+    <span class="day">Sz<br/><i ng-show="days[5].isTrainingDay" class="fa fa-heartbeat"></i>&nbsp;{{days[5].number}}</span>
+    <span class="day">V<br/><i ng-show="days[6].isTrainingDay" class="fa fa-heartbeat"></i>&nbsp;{{days[6].number}}</span>
 </div>
 
 <div class="week">
@@ -20,7 +20,8 @@
           ng-repeat="day in days">
     
         <div class="attendees">
-            <div class="attendee" ng-repeat="attendee in day.attendees">{{attendee.email}}</div>
+            <div class="attendee reservedSlot" ng-repeat="attendee in day.attendees"><i class="fa fa-bicycle"></i>&nbsp;<span ng-show="!attendee.email">foglalt</span>{{attendee.email}}</div>
+            <div class="attendee freeSlot" ng-repeat="i in day.freeSlots"><i class="fa fa-bicycle"></i>&nbsp;szabad</div>
         </div>
     </span>
     

@@ -17,14 +17,14 @@ logger.info("Env: " + env);
 
 var Datastore = require('nedb');
 
-var trainingDayDb = new Datastore({ filename: config.dbRoot + '/trainingDay.db', autoload: true });
+var eventDb = new Datastore({ filename: config.dbRoot + '/event.db', autoload: true });
 var userDb = new Datastore({ filename: config.dbRoot + '/user.db', autoload: true });
 
-var trainingDayService = require('./app/services/TrainingDayService')(trainingDayDb, logger);
+var eventService = require('./app/services/EventService')(eventDb, logger);
 var userService = require('./app/services/UserService')(userDb, logger);
 
 var app = express();
-var routes = require('./app/config/routes')(config, logger, trainingDayService);
+var routes = require('./app/config/routes')(config, logger, eventService);
 
 var port = 8100;
 require('./app/config/express')(port, app, routes, config, userService, logger);

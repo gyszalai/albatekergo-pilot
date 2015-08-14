@@ -101,32 +101,43 @@ week {
                 background:#E3F2FF;
             }
             
-            &.trainingDay {
-                background:#CFECCF;
-            }
-            
             &.selected {
                 background:#CBE1E9;
                 color:white;
             }
             
-            >div.attendees {
+            >div.events {
                 display: block;
                 margin-top: 5px;
+                padding-top: 10px;
                 
-                >div.attendee {
+                >div.event {
+                    border-radius: 5px;
+                    padding: 5px;
+                    margin: 5px;
                     display: block;
                     list-style: none;
-                    height: 20px;
+                    height: 80px;
                     
-                    &.freeSlot {
-                        color:green;
+                    &.hasFreeSlots {
+                        color: white;
                         font-weight: 700;
+                        background-color: #80e080;
                     }
                     
-                    &.reservedSlot {
-                        color:red;
+                    &.noFreeSlots {
+                        color: white;
                         font-weight: 700;
+                        background-color: #e08080;
+                    }
+                    
+                    >div.time {
+                        font-size: larger;
+                        font-weight: 900;
+                    }
+                    
+                    >div.host {
+                        font-size: larger;
                     }
                     
                 }

@@ -70,7 +70,7 @@ module.exports = function (port, app, routes, config, userService, logger) {
     // Google auth callback URL.
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '#/Calendar', 
+            successRedirect: '#/Week', 
             failureRedirect: '#/LoginFailed' 
         })
     );

@@ -16,13 +16,18 @@
 <div class="week">
     <span class="day"
           ng-class="{ today: day.isToday, trainingDay: day.isTrainingDay, selected: day.date.isSame(selected) }" 
-          ng-click="select(day)" 
           ng-repeat="day in days">
     
-        <div class="attendees">
-            <div class="attendee reservedSlot" ng-repeat="attendee in day.attendees"><i class="fa fa-bicycle"></i>&nbsp;<span ng-show="!attendee.email">foglalt</span>{{attendee.email}}</div>
-            <div class="attendee freeSlot" ng-repeat="i in day.freeSlots"><i class="fa fa-bicycle"></i>&nbsp;szabad</div>
+        <div class="events">
+            <div class="event" ng-repeat="event in day.events" ng-click="select(event)"
+                 ng-class="{'hasFreeSlots': event.hasFreeSlots, 'noFreeSlots': !event.hasFreeSlots}">
+                <div class="time">{{event.time}}</div>
+                <div class="host">{{event.host}}</div>
+                <div>{{event.attendees.length}} résztvevő</div>
+                
+            </div>
         </div>
+
     </span>
     
 </div>

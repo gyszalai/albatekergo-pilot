@@ -1,14 +1,16 @@
 'use strict';
 
+var moment = require("moment");
+
 /**
  * Module object factory
- * @param trainingDayDb The NeDB database where trainingdays are stored
+ * @param eventDb The NeDB database where events are stored
  * @param logger Logger
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-module.exports = function(trainingDayDb, logger) {
-    var db = trainingDayDb;
-    var defaultMaxAttendees = 11;
+module.exports = function(eventDb, logger) {
+    var db = eventDb;
+    var defaultMaxAttendees = 15;
     var logger = logger;
     
     return {
@@ -36,32 +38,32 @@ module.exports = function(trainingDayDb, logger) {
         },
         /**
           * Inserts a new instance into the database
-          * @param trainingDay The instance to be inserted
+          * @param event The instance to be inserted
           * @param callback Callback
           * @author Gyula Szalai <gyszalai@gmail.com>
           */
-       insert: function insert( trainingDay, callback ) {
-           if (!trainingDay.maxAttendees) {
-               trainingDay.maxAttendees = defaultMaxAttendees;
+       insert: function insert( event, callback ) {
+           if (!event.maxAttendees) {
+               event.maxAttendees = defaultMaxAttendees;
            }
-           db.insert(trainingDay, function(err, saved){
+           db.insert(event, function(err, saved){
                if(err) callback(err);
                else callback(null, saved);
            });
        },
        /**
-        * Adds a new attendee to the specified trainingday
-        * @param trainingDayId The id of the trainingday the attendee to be added to
+        * Adds a new attendee to the specified event
+        * @param eventId The id of the event the attendee to be added to
         * @param attendee The attendee to add
         * @param callback Callback
         * @author Gyula Szalai <gyszalai@gmail.com>
         */
-       addNewAttendee: function addNewAttendee( trainingDayId, attendee, callback ) {
-           db.findOne({_id: trainingDayId}, function(err, trainingDay) {
-              if (trainingDay) {
-                  logger.info("trainingday found: ", trainingDay);
-                  if (!(trainingDay.maxAttendees) || (trainingDay.attendees.length < trainingDay.maxAttendees)) {
-                      db.update({_id: trainingDayId}, {$push: {attendees: attendee}}, function (err, numUpdated, newDoc) {
+       addNewAttendee: function addNewAttendee( eventId, attendee, callback ) {
+           db.findOne({_id: eventId}, function(err, event) {
+              if (event) {
+                  logger.info("event found: ", event);
+                  if (!(event.maxAttendees) || (event.attendees.length < event.maxAttendees)) {
+                      db.update({_id: eventId}, {$push: {attendees: attendee}}, function (err, numUpdated, newDoc) {
                           logger.info("addNewAttendee error: ", err);
                           if (err) callback(err);
                           else callback(null, numUpdated);
@@ -74,18 +76,18 @@ module.exports = function(trainingDayDb, logger) {
                   logger.info("addNewAttendee, error", err);
                   callback(err);
               } else {
-                  logger.info("trainingday not found");
+                  logger.info("event not found");
                   callback();
               }
            });
        },
        /**
-        * Removes all attendees' e-mail addresses from the given training day
-        * @param {type} trainingDay The training day
+        * Removes all attendees' e-mail addresses from the given event
+        * @param {type} event The event
         */
-        removeEmailAddresses: function removeEmailAddresses(trainingDay) {
-            if (trainingDay.attendees) {
-                trainingDay.attendees.forEach(function(attendee) {
+        removeEmailAddresses: function removeEmailAddresses(event) {
+            if (event.attendees) {
+                event.attendees.forEach(function(attendee) {
                     attendee.email = null;
                 });
             }

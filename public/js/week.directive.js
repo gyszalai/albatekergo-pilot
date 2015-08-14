@@ -1,11 +1,12 @@
 var app = angular.module("AlbatekergoMain");
 
-app.directive("week", ['TrainingDayService', '$log', '$modal', function (TrainingDayService, $log, $modal) {
+app.directive("week", ['EventService', '$log', '$modal', function (EventService, $log, $modal) {
     return {
         restrict: "E",
         templateUrl: "templates/week-template.html",
         scope: {
-            selected: "="
+            selected: "=",
+            user: "="
         },
         link: function (scope) {
             scope.selected = _removeTime(scope.selected || moment());
@@ -17,17 +18,13 @@ app.directive("week", ['TrainingDayService', '$log', '$modal', function (Trainin
 
             _buildWeek(scope, start);
 
-            scope.select = function (day) {
-                scope.selected = day.date;
-                console.log("daySelected", day);
-                if (day.isTrainingDay) {
-                    if (day.maxAttendees > day.attendees.length) {
-                        showReserveSlotModal(scope, $modal, day);
-                    } else {
-                        showNoMoreSlotsModal($modal, day);
-                    }
+            scope.select = function (event) {
+                scope.selected = event.dateTime;
+                console.log("eventSelected", event);
+                if (event.maxAttendees > event.attendees.length) {
+                    showReserveSlotModal(scope, $modal, event);
                 } else {
-                    console.log("Not a training day: ", day.date);
+                    showNoMoreSlotsModal($modal, event);
                 }
             };
 
@@ -59,7 +56,6 @@ app.directive("week", ['TrainingDayService', '$log', '$modal', function (Trainin
             scope.days.push({
                 name: date.format("dd").substring(0, 1),
                 number: date.date(),
-                isTrainingDay: false,
                 //isCurrentMonth: date.month() === month.month(),
                 isToday: date.isSame(new Date(), "day"),
                 date: date
@@ -67,53 +63,63 @@ app.directive("week", ['TrainingDayService', '$log', '$modal', function (Trainin
             date = date.clone();
             date.add(1, "d");
         }
-        getAttendees(scope);
+        getEvents(scope.user, scope.days);
     }
     
-    function getAttendees(scope) {
+    
+    function getEvents(user, days) {
         
-        TrainingDayService.getTrainingDays()
-            .success(function(trainingDays, status, headers, config) {
-                $log.debug("getTrainingDays, status: ", status);
-                $log.debug("getTrainingDays, trainingDays: ", trainingDays);
+        EventService.getEvents()
+            .success(function(events, status, headers, config) {
+                $log.debug("getEvents, status: ", status);
+                $log.debug("getEvents, events: ", events);
                 
-                scope.days.forEach(function(day) {
+                days.forEach(function(day) {
                     $log.debug("day: " + day.date.format("YYYY.MM.DD"));
-                    trainingDays.forEach(function (trainingDay) {
-                        if (day.date.format("YYYY-MM-DD") === trainingDay.date) {
-                            day.attendees = trainingDay.attendees || [];
-                            $log.debug("found: ", trainingDay);
-                            day.isTrainingDay = true;
-                            day.maxAttendees = trainingDay.maxAttendees;
+                    day.events = [];
+                    events.forEach(function (event) {
+                        event.dateTime = moment(event.date + "T" + event.time);
+                        if (day.date.format("YYYY-MM-DD") === event.date) {
+                            day.events.push(event);
+                            $log.debug("found: ", event);
                             // Free slots are represented as an array containing numbers
-                            var freeSlots = [];
-                            for(var i=0 ; i < (day.maxAttendees - day.attendees.length); i++) {
-                              freeSlots.push(i);
+                            event.freeSlots = [];
+                            for(var i=0 ; i < (event.maxAttendees - event.attendees.length); i++) {
+                              event.freeSlots.push(i);
                             }
-                            day.freeSlots = freeSlots;
-                            day._id = trainingDay._id;
+                            event.hasFreeSlots = event.freeSlots.length > 0;
+                            event.registered = EventService.isUserRegisteredForEvent(event, user.email);
                         }
                     });
                 });
             }).
             error(function(data, status, headers, config) {
-                $log.debug("Error getting trainingdays: ", data, status, headers);
+                $log.debug("Error getting events: ", data, status, headers);
             });
   
     }
     
-    function showReserveSlotModal(scope, $modal, day) {
+    function showReserveSlotModal(scope, $modal, event) {
         
         function ReserveSlotModalController($scope) {
             $scope.reserveSlot = function() {
-                console.log("RESERVE SLOT: ", day.date);
+                console.log("RESERVE SLOT: ", event.date);
+                EventService.reserveSlot(event._id)
+                    .success(function(result, status, headers, config) {
+                        $log.debug("reserveSlot, status: ", status);
+                        $log.debug("reserveSlot, result: ", result);
+                        
+                    }).
+                    error(function(data, status, headers, config) {
+                        $log.debug("Error reserving slot for day: ", event.date, data, status, headers);
+                    });
                 $scope.$hide();
             };
         }
         ReserveSlotModalController.$inject = ['$scope'];
         var reserveSlotModal = $modal({
             controller: ReserveSlotModalController, 
-            title: 'Edzésnap ' + day.date.format("YYYY. MMM. DD.") , 
+            title: 'Edzés ' + event.dateTime.format("YYYY. MMM. DD.") , 
             templateUrl: 'templates/week-reserve-slot-modal-tpl.html', 
             show: false
         });
@@ -121,10 +127,10 @@ app.directive("week", ['TrainingDayService', '$log', '$modal', function (Trainin
         reserveSlotModal.$promise.then(reserveSlotModal.show);
     }
     
-    function showNoMoreSlotsModal($modal, day) {
+    function showNoMoreSlotsModal($modal, event) {
         var noMoreSlotsModal = $modal({
-            title: 'Edzésnap ' + day.date.format("YYYY. MMM. DD."), 
-            content: 'Sajnos erre a napra már nem tudsz helyet foglalni', 
+            title: 'Edzés ' + event.dateTime.format("YYYY. MMM. DD."), 
+            content: 'Sajnos erre az edzésre már nem tudsz helyet foglalni', 
             show: true
         });
     }

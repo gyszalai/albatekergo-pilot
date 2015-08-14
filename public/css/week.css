@@ -86,29 +86,39 @@ week > div.week > span.day:first-child {
 week > div.week > span.day.today {
   background: #E3F2FF;
 }
-week > div.week > span.day.trainingDay {
-  background: #CFECCF;
-}
 week > div.week > span.day.selected {
   background: #CBE1E9;
   color: white;
 }
-week > div.week > span.day > div.attendees {
+week > div.week > span.day > div.events {
   display: block;
   margin-top: 5px;
+  padding-top: 10px;
 }
-week > div.week > span.day > div.attendees > div.attendee {
+week > div.week > span.day > div.events > div.event {
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
   display: block;
   list-style: none;
-  height: 20px;
+  height: 80px;
 }
-week > div.week > span.day > div.attendees > div.attendee.freeSlot {
-  color: green;
+week > div.week > span.day > div.events > div.event.hasFreeSlots {
+  color: white;
   font-weight: 700;
+  background-color: #80e080;
 }
-week > div.week > span.day > div.attendees > div.attendee.reservedSlot {
-  color: red;
+week > div.week > span.day > div.events > div.event.noFreeSlots {
+  color: white;
   font-weight: 700;
+  background-color: #e08080;
+}
+week > div.week > span.day > div.events > div.event > div.time {
+  font-size: larger;
+  font-weight: 900;
+}
+week > div.week > span.day > div.events > div.event > div.host {
+  font-size: larger;
 }
 week > div.week.names > span {
   height: 45px;

@@ -4,7 +4,7 @@ angular.module('AlbatekergoMain').controller("WeekController", ['$scope', '$moda
     $scope.daySelected = function(day) {
     };
     
-    $scope.reserveSlot = function() {
+    $scope.registerToEvent = function() {
     };
     
     

@@ -101,24 +101,37 @@ week > div.week > span.day > div.events > div.event {
   margin: 5px;
   display: block;
   list-style: none;
-  height: 80px;
+  height: 90px;
+}
+week > div.week > span.day > div.events > div.event > .eventHeader {
+  font-size: larger;
+  font-weight: 900;
+  text-align: left;
+  border-radius: 3px;
+  padding: 3px;
+}
+week > div.week > span.day > div.events > div.event > .eventHeader > .time {
+  color: white;
+}
+week > div.week > span.day > div.events > div.event > .eventHeader > .host {
+  color: white;
+  margin-left: 5px;
 }
 week > div.week > span.day > div.events > div.event.hasFreeSlots {
   color: white;
   font-weight: 700;
   background-color: #80e080;
 }
+week > div.week > span.day > div.events > div.event.hasFreeSlots > .eventHeader {
+  background-color: #c0e0c0;
+}
 week > div.week > span.day > div.events > div.event.noFreeSlots {
   color: white;
   font-weight: 700;
   background-color: #e08080;
 }
-week > div.week > span.day > div.events > div.event > div.time {
-  font-size: larger;
-  font-weight: 900;
-}
-week > div.week > span.day > div.events > div.event > div.host {
-  font-size: larger;
+week > div.week > span.day > div.events > div.event.noFreeSlots > .eventHeader {
+  background-color: #e0c0c0;
 }
 week > div.week.names > span {
   height: 45px;

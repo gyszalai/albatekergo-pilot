@@ -11,6 +11,7 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
         link: function (scope) {
             scope.selected = _removeTime(scope.selected || moment());
             scope.currentWeek = scope.selected.clone();
+            $log.info("******** current user: " + JSON.stringify(scope.user));
 
             var start = scope.selected.clone();
             start.weekday(0);
@@ -22,7 +23,11 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
                 scope.selected = event.dateTime;
                 console.log("eventSelected", event);
                 if (event.maxAttendees > event.attendees.length) {
-                    showReserveSlotModal(scope, $modal, event);
+                    if (event.registered) {
+                        showUnregisterFromEventModal(scope, $modal, event);
+                    } else {
+                        showRegisterToEventModal(scope, $modal, event);
+                    }
                 } else {
                     showNoMoreSlotsModal($modal, event);
                 }
@@ -71,8 +76,9 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
         
         EventService.getEvents()
             .success(function(events, status, headers, config) {
-                $log.debug("getEvents, status: ", status);
-                $log.debug("getEvents, events: ", events);
+                $log.debug("getEvents, status: " + status);
+                $log.debug("getEvents, events: " + JSON.stringify(events));
+                $log.debug("getEvents, user: " + JSON.stringify(user));
                 
                 days.forEach(function(day) {
                     $log.debug("day: " + day.date.format("YYYY.MM.DD"));
@@ -81,51 +87,88 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
                         event.dateTime = moment(event.date + "T" + event.time);
                         if (day.date.format("YYYY-MM-DD") === event.date) {
                             day.events.push(event);
-                            $log.debug("found: ", event);
+                            $log.debug("found: " + JSON.stringify(event));
                             // Free slots are represented as an array containing numbers
                             event.freeSlots = [];
                             for(var i=0 ; i < (event.maxAttendees - event.attendees.length); i++) {
                               event.freeSlots.push(i);
                             }
                             event.hasFreeSlots = event.freeSlots.length > 0;
-                            event.registered = EventService.isUserRegisteredForEvent(event, user.email);
+//                            event.registered = EventService.isUserRegisteredForEvent(event, user.email);
+//                            $log.debug("*** checking event: " + JSON.stringify(event));
+//                            $log.debug("*** already registered to this event: " + event.registered);
                         }
                     });
                 });
             }).
             error(function(data, status, headers, config) {
-                $log.debug("Error getting events: ", data, status, headers);
+                $log.debug("Error getting events: " + data);
+                $log.debug("    status: " + status);
+                $log.debug("    headers: " + JSON.stringify(headers));
             });
   
     }
     
-    function showReserveSlotModal(scope, $modal, event) {
+    function showRegisterToEventModal(scope, $modal, event) {
         
-        function ReserveSlotModalController($scope) {
-            $scope.reserveSlot = function() {
-                console.log("RESERVE SLOT: ", event.date);
-                EventService.reserveSlot(event._id)
-                    .success(function(result, status, headers, config) {
-                        $log.debug("reserveSlot, status: ", status);
-                        $log.debug("reserveSlot, result: ", result);
-                        
-                    }).
-                    error(function(data, status, headers, config) {
-                        $log.debug("Error reserving slot for day: ", event.date, data, status, headers);
+        function RegisterToEventModalController($scope) {
+            $scope.registerToEvent = function() {
+                console.log("Register to event: " + event.date + " " + event.time);
+                EventService.registerToEvent(event._id).then(
+                    function(refreshedEvent) {
+                        $log.info("registerToEvent successful");
+                        $log.info("refreshed event: " + JSON.stringify(refreshedEvent));
+                        event.attendees = refreshedEvent.attendees;
+                        event.registered = refreshedEvent.registered;
+                    },
+                    function(result, status) { // failure
+                        $log.info("registerToEvent error: " + result);
                     });
                 $scope.$hide();
             };
         }
-        ReserveSlotModalController.$inject = ['$scope'];
-        var reserveSlotModal = $modal({
-            controller: ReserveSlotModalController, 
+        RegisterToEventModalController.$inject = ['$scope'];
+        var registerToEvent = $modal({
+            controller: RegisterToEventModalController, 
             title: 'Edzés ' + event.dateTime.format("YYYY. MMM. DD.") , 
-            templateUrl: 'templates/week-reserve-slot-modal-tpl.html', 
+            templateUrl: 'templates/register-to-event-modal-tpl.html', 
             show: false
         });
         
-        reserveSlotModal.$promise.then(reserveSlotModal.show);
+        registerToEvent.$promise.then(registerToEvent.show);
     }
+    
+    
+    function showUnregisterFromEventModal(scope, $modal, event) {
+        
+        function UnregisterFromEventModalController($scope) {
+            $scope.unregisterFromEvent = function() {
+                console.log("Unregister from event: " + event.date + " " + event.time);
+                EventService.unregisterFromEvent(event._id).then(
+                    function(refreshedEvent) {
+                        $log.info("unregisterFromEvent successful");
+                        $log.info("refreshed event: " + JSON.stringify(refreshedEvent));
+                        event.attendees = refreshedEvent.attendees;
+                        event.registered = refreshedEvent.registered;
+                    },
+                    function(result, status) { // failure
+                        $log.info("unregisterFromEvent error: " + result);
+                    });
+                $scope.$hide();
+            };
+        }
+        UnregisterFromEventModalController.$inject = ['$scope'];
+        var unregisterFromEvent = $modal({
+            controller: UnregisterFromEventModalController, 
+            title: 'Edzés ' + event.dateTime.format("YYYY. MMM. DD. HH:mm") , 
+            templateUrl: 'templates/unregister-from-event-modal-tpl.html', 
+            show: false
+        });
+        
+        unregisterFromEvent.$promise.then(unregisterFromEvent.show);
+    }
+    
+    
     
     function showNoMoreSlotsModal($modal, event) {
         var noMoreSlotsModal = $modal({

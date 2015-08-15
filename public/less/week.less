@@ -117,28 +117,47 @@ week {
                     margin: 5px;
                     display: block;
                     list-style: none;
-                    height: 80px;
+                    height: 90px;
+                    
+                    >.eventHeader {
+                        font-size: larger;
+                        font-weight: 900;
+                        text-align: left;
+                        border-radius: 3px;
+                        padding: 3px;
+                        
+                        >.time {
+                            color: white;
+                        }
+                        
+                        >.host {
+                            color: white;
+                            margin-left: 5px;
+                        }
+                    }
                     
                     &.hasFreeSlots {
                         color: white;
                         font-weight: 700;
                         background-color: #80e080;
+                        
+                        >.eventHeader {
+                            background-color: #c0e0c0;
+                        }
+                        
                     }
                     
                     &.noFreeSlots {
                         color: white;
                         font-weight: 700;
                         background-color: #e08080;
+                        
+                        >.eventHeader {
+                            background-color: #e0c0c0;
+                        }
                     }
                     
-                    >div.time {
-                        font-size: larger;
-                        font-weight: 900;
-                    }
                     
-                    >div.host {
-                        font-size: larger;
-                    }
                     
                 }
             }

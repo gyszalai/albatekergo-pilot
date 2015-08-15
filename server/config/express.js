@@ -24,7 +24,7 @@ module.exports = function (port, app, routes, config, userService, logger) {
             logger.info("profile: ", profile);
             logger.info("User accessToken: ", token);
 
-            var user = {_id: profile.emails[0].value, displayName: profile.displayName};
+            var user = {_id: profile.emails[0].value, displayName: profile.displayName, email: profile.emails[0].value, imageUrl: profile.photos[0].value};
             logger.info("User to be saved: ", user);
             userService.insertOrUpdate(user, function(err, user) {
                 logger.info("after user insert: ", err, user);
@@ -70,7 +70,7 @@ module.exports = function (port, app, routes, config, userService, logger) {
     // Google auth callback URL.
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '#/Week', 
+            successRedirect: 'http://localhost:8100/#/Week', 
             failureRedirect: '#/LoginFailed' 
         })
     );

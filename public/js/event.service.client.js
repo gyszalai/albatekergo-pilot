@@ -14,23 +14,54 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
         return $http.get("/api/events");
     };
     
-    this.reserveSlot = function(eventId) { 
-        return UserService.getUser()
-                .success(function(user, status, headers, config) {
-                    $log.info("EventService, user: ", user);
-                    return $http.post("/api/events/"+eventId+"/attendees", user);
-                });
+    this.registerToEvent = function(eventId) { 
+        var deferred = $q.defer();
+        UserService.getUser()
+            .success(function(user, status, headers, config) {
+                $log.info("EventService, user: " + JSON.stringify(user));
+                $http.post("/api/events/"+eventId+"/attendees", user)
+                    .success(function(result, status, headers, config) {
+                        $log.debug("registerToEvent, status: " + status);
+                        $log.debug("registerToEvent, result: " + JSON.stringify(result));
+                        deferred.resolve(result);
+                    }).
+                    error(function(data, status, headers, config) {
+                        $log.debug("Error reserving slot for day: " + event.date + " " + event.time);
+                        $log.debug("    data: " + data);
+                        $log.debug("    status: " + status);
+                        $log.debug("    headers: " + JSON.stringify(headers));
+                        deferred.reject(data, status);
+                    });
+            })
+            .error(function(data, status) {
+                deferred.reject(data, status);
+            });
+        return deferred.promise;
     };
     
-    this.isUserRegisteredForEvent = function(event, email) {    
-        if (event.attendees) {
-            event.attendees.forEach(function(attendee) {
-                if (attendee.email === email) {
-                    return true;
-                }
+    this.unregisterFromEvent = function(eventId) { 
+        var deferred = $q.defer();
+        UserService.getUser()
+            .success(function(user, status, headers, config) {
+                $log.info("EventService, user: " + JSON.stringify(user));
+                $http.delete("/api/events/"+eventId+"/attendees/" + user.email)
+                    .success(function(result, status, headers, config) {
+                        $log.debug("unregisterFromEvent, status: " + status);
+                        $log.debug("unregisterFromEvent, result: " + JSON.stringify(result));
+                        deferred.resolve(result);
+                    }).
+                    error(function(data, status, headers, config) {
+                        $log.debug("Error unregistering from event: " + event.date + " " + event.time);
+                        $log.debug("    data: " + data);
+                        $log.debug("    status: " + status);
+                        $log.debug("    headers: " + JSON.stringify(headers));
+                        deferred.reject(data, status);
+                    });
+            })
+            .error(function(data, status) {
+                deferred.reject(data, status);
             });
-        }
-        return false;
+        return deferred.promise;
     };
     
 }]);

@@ -1,18 +1,12 @@
 
-angular.module('AlbatekergoMain').controller("MainController", [
-    "$log", "UserService", 
-    function ($log, UserService) {
-    
+angular.module('AlbatekergoMain').controller("MainController", 
+    ["$log", "UserService", function ($log, UserService) {
         var main = this;
-
-        UserService.getUser().
-                success(function(data, status, headers, config) {
-                    $log.debug("UserService.getUser, status: ", status);
-                    $log.debug("UserService.getUser, user: ", data);
-                    main.user = data;
-                }).
-                error(function(data, status, headers, config) {
+        UserService.getUser().then(
+                function(user) {
+                    main.user = user;
+                },
+                function(err, status) {
                     main.user = null;
-                    $log.debug("Error getting user profile: ", data, status, headers);
                 });
     }]);

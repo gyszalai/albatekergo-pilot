@@ -63,35 +63,51 @@ module.exports = function (config, logger, eventService) {
                 email: req.body.email, 
                 name: req.body.displayName
             };
-            logger.info("Trying to add new attendee to " + id);
-            logger.info("Attendee: ", attendee);
-            eventService.addNewAttendee(id, attendee, function(err, result) {
-                logger.info("POST /events/:id/attendees, result: " + JSON.stringify(result));
-                if (err) {
-                    res.json(err);
-                } else if (result.status === "OK") {
-                    res.json(result.event);
-                } else {
-                    res.status(404);
-                }
-            });
+            
+            if (req.user.email !== attendee.email) {
+                var statusText = "User "+req.user.email+" not allowed to register attendee: " + attendee.email;
+                logger.warn(statusText);
+                res.status(401);
+                res.send({status: "ERROR", reason: statusText});
+            } else {
+                logger.info("Trying to add new attendee "+attendee.email+" to " + id);
+                logger.info("Attendee: ", attendee);
+                eventService.addNewAttendee(id, attendee, function(err, result) {
+                    logger.info("POST /events/:id/attendees, result: " + JSON.stringify(result));
+                    if (err) {
+                        res.json(err);
+                    } else if (result.status === "OK") {
+                        res.json(result.event);
+                    } else {
+                        res.status(404);
+                    }
+                });
+            }
         });
         
     router.route('/events/:eventId/attendees/:attendeeId')
         .delete(function (req, res) {
             var eventId = req.params.eventId;
             var attendeeId = req.params.attendeeId;
-            logger.info("Trying to remove attendee " + attendeeId + " from " + eventId);
-            eventService.removeAttendee(eventId, attendeeId, function(err, result) {
-                logger.info("DELETE /events/:eventId/attendees/attendeeId, result: " + JSON.stringify(result));
-                if (err) {
-                    res.json(err);
-                } else if (result.status === "OK") {
-                    res.json(result.event);
-                } else {
-                    res.status(404);
-                }
-            });
+            
+            if (req.user.email !== attendeeId) {
+                var statusText = "User "+req.user.email+" not allowed to unregister attendee: " + attendeeId;
+                logger.warn(statusText);
+                res.status(401);
+                res.send({status: "ERROR", reason: statusText});
+            } else {
+                logger.info("Trying to remove attendee " + attendeeId + " from " + eventId);
+                eventService.removeAttendee(eventId, attendeeId, function(err, result) {
+                    logger.info("DELETE /events/:eventId/attendees/attendeeId, result: " + JSON.stringify(result));
+                    if (err) {
+                        res.json(err);
+                    } else if (result.status === "OK") {
+                        res.json(result.event);
+                    } else {
+                        res.status(404);
+                    }
+                });
+            }
         });
 
     return router;

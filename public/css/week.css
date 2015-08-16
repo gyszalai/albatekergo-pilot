@@ -77,7 +77,6 @@ week > div.week > span.day {
   display: block;
   vertical-align: top;
   background: white;
-  cursor: pointer;
   color: black;
 }
 week > div.week > span.day:first-child {
@@ -102,6 +101,7 @@ week > div.week > span.day > div.events > div.event {
   display: block;
   list-style: none;
   height: 90px;
+  cursor: pointer;
 }
 week > div.week > span.day > div.events > div.event > .eventHeader {
   font-size: larger;
@@ -111,10 +111,10 @@ week > div.week > span.day > div.events > div.event > .eventHeader {
   padding: 3px;
 }
 week > div.week > span.day > div.events > div.event > .eventHeader > .time {
-  color: white;
+  color: #404040;
 }
 week > div.week > span.day > div.events > div.event > .eventHeader > .host {
-  color: white;
+  color: #404040;
   margin-left: 5px;
 }
 week > div.week > span.day > div.events > div.event.hasFreeSlots {
@@ -123,7 +123,8 @@ week > div.week > span.day > div.events > div.event.hasFreeSlots {
   background-color: #80e080;
 }
 week > div.week > span.day > div.events > div.event.hasFreeSlots > .eventHeader {
-  background-color: #c0e0c0;
+  /*background-color: #c0e0c0;*/
+  background-color: white;
 }
 week > div.week > span.day > div.events > div.event.noFreeSlots {
   color: white;
@@ -131,7 +132,17 @@ week > div.week > span.day > div.events > div.event.noFreeSlots {
   background-color: #e08080;
 }
 week > div.week > span.day > div.events > div.event.noFreeSlots > .eventHeader {
-  background-color: #e0c0c0;
+  background-color: white;
+  /*background-color: #e0c0c0;*/
+}
+week > div.week > span.day > div.events > div.event > .attendeesCount {
+  padding-top: 3px;
+}
+week > div.week > span.day > div.events > div.event > .userAvatar {
+  padding-top: 5px;
+}
+week > div.week > span.day > div.events > div.event > .userAvatar > img {
+  border-radius: 15px;
 }
 week > div.week.names > span {
   height: 45px;

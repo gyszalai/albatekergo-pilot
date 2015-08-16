@@ -90,7 +90,6 @@ week {
             display: block;
             vertical-align:top;
             background:white;
-            cursor:pointer;
             color:black;
             
             &:first-child {
@@ -118,6 +117,7 @@ week {
                     display: block;
                     list-style: none;
                     height: 90px;
+                    cursor:pointer;
                     
                     >.eventHeader {
                         font-size: larger;
@@ -127,11 +127,11 @@ week {
                         padding: 3px;
                         
                         >.time {
-                            color: white;
+                            color: #404040;
                         }
                         
                         >.host {
-                            color: white;
+                            color: #404040;
                             margin-left: 5px;
                         }
                     }
@@ -142,7 +142,8 @@ week {
                         background-color: #80e080;
                         
                         >.eventHeader {
-                            background-color: #c0e0c0;
+                            /*background-color: #c0e0c0;*/
+                            background-color: white;
                         }
                         
                     }
@@ -153,11 +154,23 @@ week {
                         background-color: #e08080;
                         
                         >.eventHeader {
-                            background-color: #e0c0c0;
+                            background-color: white;
+                            /*background-color: #e0c0c0;*/
                         }
                     }
                     
+                    >.attendeesCount {
+                        padding-top: 3px;
+                    }
                     
+                    >.userAvatar {
+                        padding-top: 5px;
+                        
+                        >img {
+                            border-radius: 15px;
+                        }
+                        
+                    }
                     
                 }
             }

@@ -15,8 +15,8 @@ module.exports = function(eventDb, logger) {
     
     return {
         /**
-          * Return all instances
-          * @param callback Callback
+          * Finds all instances
+          * @param callback Callback (err, result)
           * @author Gyula Szalai <gyszalai@gmail.com>
           */
         getAll: function getAll( callback ) {
@@ -26,9 +26,9 @@ module.exports = function(eventDb, logger) {
             });
         },
         /**
-          * Finds an instance in the database and returns it;
+          * Finds an instance in the database
           * @param id The unique id of the instance
-          * @param callback Callback
+          * @param callback Callback (err, result)
           */
         find: function find(id, callback ){
             db.find({_id: id}, function(err, result){
@@ -39,7 +39,7 @@ module.exports = function(eventDb, logger) {
         /**
           * Inserts a new instance into the database
           * @param event The instance to be inserted
-          * @param callback Callback
+          * @param callback Callback (err, insertedDoc)
           * @author Gyula Szalai <gyszalai@gmail.com>
           */
        insert: function insert( event, callback ) {
@@ -52,10 +52,25 @@ module.exports = function(eventDb, logger) {
            });
        },
        /**
+         * Finds and removes an instance from the database
+         * @param id The unique id of the instance
+         * @param callback Callback (err, numRemoved)
+         */
+       remove: function remove(id, callback ){
+            db.remove({_id: id}, function(err, numRemoved){
+                if(err) {
+                    callback(err);
+                }
+                else {
+                    callback(null, numRemoved);
+                };
+            });
+        },
+       /**
         * Adds a new attendee to the specified event
         * @param eventId The id of the event the attendee to be added to
         * @param attendee The attendee to add
-        * @param callback Callback
+        * @param callback Callback (null, {status, event})
         * @author Gyula Szalai <gyszalai@gmail.com>
         */
         addNewAttendee: function addNewAttendee(eventId, attendee, callback) {
@@ -143,7 +158,7 @@ module.exports = function(eventDb, logger) {
         },
        /**
         * Removes all attendees' e-mail addresses from the given event
-        * @param {type} event The event
+        * @param event The event
         */
         removeEmailAddresses: function removeEmailAddresses(event) {
             if (event.attendees) {
@@ -156,7 +171,7 @@ module.exports = function(eventDb, logger) {
          * Check if a given user is already registered to the given event
          * @param {type} event The event
          * @param {type} email The e-mail address of the user
-         * @returns {undefined} true, if the user is already registered to the event
+         * @returns true, if the user is already registered to the event
          */
         isUserRegisteredToEvent: function isUserRegisteredToEvent(event, email) {
             if (event.attendees) {

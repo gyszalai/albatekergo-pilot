@@ -22,19 +22,10 @@ module.exports = function (config, logger, eventService) {
                         event.registered = eventService.isUserRegisteredToEvent(event, req.user.email);
                         logger.info("event: ", event.date, event.time);
                         logger.info("registered: ", event.registered);
-                        if (!req.user.isAdmin) {
-                            eventService.removeEmailAddresses(event);
-                        }
+                        eventService.removeEmailAddresses(event);
                     });
                 }
                 res.json(events);
-            });
-        })
-        .post(function (req, res) {
-            logger.info('events post: ', JSON.stringify(req.body));
-            eventService.insert(req.body, function (err, newDoc) {
-                logger.info('events insert response: ', newDoc);
-                res.json(newDoc);
             });
         });
 

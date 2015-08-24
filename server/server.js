@@ -27,7 +27,7 @@ var app = express();
 var routes = require('./config/routes')(config, logger, eventService);
 
 var port = 8100;
-require('./config/express')(port, app, routes, config, userService, logger);
+require('./config/express')(port, app, routes, env, config, userService, logger);
 
 logger.info("Listening on: " + port);
 app.listen(port);

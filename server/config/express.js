@@ -11,8 +11,28 @@ var cookieSession = require('cookie-session');
 
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var BasicStrategy = require('passport-http').BasicStrategy
 
-module.exports = function (port, app, routes, config, userService, logger) {
+module.exports = function (port, app, routes, env, config, userService, logger) {
+    
+    if (env === "development") {
+        passport.use(new BasicStrategy(
+            function (username, password, done) {
+                if (username.valueOf() === 'dummy' && password.valueOf() === 'dummy') {
+                    var user = {
+                        _id: "gyszalai@gmail.com",
+                        displayName: "Gyula Szalai",
+                        email: "gyszalai@gmail.com",
+                        imageUrl: "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"
+                    };
+                    return done(null, user);
+                }
+                else {
+                    return done(null, false);
+                }
+            }
+        ));
+    }
 
     passport.use(new GoogleStrategy({
             clientID: config.googleClientId,
@@ -74,6 +94,15 @@ module.exports = function (port, app, routes, config, userService, logger) {
             failureRedirect: '#/LoginFailed' 
         })
     );
+
+    if (env === "development") {
+        app.get('/auth/basic', 
+            passport.authenticate('basic', {session: true }), 
+            function (req, res) {
+                res.redirect("/index.html");
+            });
+    }
+
 
     // Show user profile
     app.get('/profile', function(req, res) {

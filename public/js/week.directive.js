@@ -54,10 +54,8 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
     }
 
     function _buildWeek(scope, date) {
-        
         scope.days = [];
         for (var i = 0; i < 7; i++) {
-            
             scope.days.push({
                 name: date.format("dd").substring(0, 1),
                 number: date.date(),
@@ -71,12 +69,9 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
         getEvents(scope.user, scope.days);
     }
     
-    
     function getEvents(user, days) {
-        
         EventService.getEvents()
-            .success(function(events, status, headers, config) {
-                $log.debug("getEvents, status: " + status);
+            .then(function(events) {
                 $log.debug("getEvents, events: " + JSON.stringify(events));
                 $log.debug("getEvents, user: " + JSON.stringify(user));
                 
@@ -94,19 +89,15 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
                               event.freeSlots.push(i);
                             }
                             event.hasFreeSlots = event.freeSlots.length > 0;
-//                            event.registered = EventService.isUserRegisteredForEvent(event, user.email);
-//                            $log.debug("*** checking event: " + JSON.stringify(event));
-//                            $log.debug("*** already registered to this event: " + event.registered);
                         }
                     });
                 });
-            }).
-            error(function(data, status, headers, config) {
+            })
+            .catch(function(data, status) {
                 $log.debug("Error getting events: " + data);
                 $log.debug("    status: " + status);
                 $log.debug("    headers: " + JSON.stringify(headers));
             });
-  
     }
     
     function showRegisterToEventModal(scope, $modal, event) {

@@ -11,7 +11,21 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
     };
 
     this.getEvents = function getEvents() { 
-        return $http.get("/api/events");
+        var deferred = $q.defer();
+        $http.get("/api/events")
+            .success(function(result, status) {
+                $log.debug("getEvents, status: " + status);
+                $log.debug("getEvents, result: " + JSON.stringify(result));
+                deferred.resolve(result);
+            })
+            .error(function(data, status, headers) {
+                $log.debug("getEvents error: ");
+                $log.debug("    data: " + data);
+                $log.debug("    status: " + status);
+                $log.debug("    headers: " + JSON.stringify(headers));
+                deferred.reject(data, status);
+            });
+        return deferred.promise;
     };
     
     this.registerToEvent = function(eventId) { 

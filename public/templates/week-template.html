@@ -22,7 +22,7 @@
             <div class="event" ng-repeat="event in day.events" ng-click="select(event)"
                  ng-class="{'hasFreeSlots': event.hasFreeSlots, 'noFreeSlots': !event.hasFreeSlots}">
                 <div class="eventHeader"><span class="time">{{event.time}}</span><span class="host">{{event.host}}</span><i ng-show="event.registered" class="host fa fa-check-square-o"></i></div>
-                <div class="attendeesCount">{{event.attendees.length}} résztvevő</div>
+                <div class="attendeesCount">{{event.numAttendees}} résztvevő</div>
                 <div class="userAvatar" ng-show="event.registered"><img width="30" ng-src="{{user.imageUrl}}"></div>
             </div>
         </div>

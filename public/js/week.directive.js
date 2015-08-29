@@ -22,7 +22,7 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
             scope.select = function (event) {
                 scope.selected = event.dateTime;
                 console.log("eventSelected", event);
-                if (event.maxAttendees > event.attendees.length) {
+                if (event.maxAttendees > event.numAttendees) {
                     if (event.registered) {
                         showUnregisterFromEventModal(scope, $modal, event);
                     } else {
@@ -85,7 +85,7 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
                             $log.debug("found: " + JSON.stringify(event));
                             // Free slots are represented as an array containing numbers
                             event.freeSlots = [];
-                            for(var i=0 ; i < (event.maxAttendees - event.attendees.length); i++) {
+                            for(var i=0 ; i < (event.maxAttendees - event.numAttendees); i++) {
                               event.freeSlots.push(i);
                             }
                             event.hasFreeSlots = event.freeSlots.length > 0;
@@ -96,7 +96,6 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
             .catch(function(data, status) {
                 $log.debug("Error getting events: " + data);
                 $log.debug("    status: " + status);
-                $log.debug("    headers: " + JSON.stringify(headers));
             });
     }
     
@@ -109,7 +108,7 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
                     function(refreshedEvent) {
                         $log.info("registerToEvent successful");
                         $log.info("refreshed event: " + JSON.stringify(refreshedEvent));
-                        event.attendees = refreshedEvent.attendees;
+                        event.numAttendees = refreshedEvent.numAttendees;
                         event.registered = refreshedEvent.registered;
                     },
                     function(result, status) { // failure
@@ -139,7 +138,7 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
                     function(refreshedEvent) {
                         $log.info("unregisterFromEvent successful");
                         $log.info("refreshed event: " + JSON.stringify(refreshedEvent));
-                        event.attendees = refreshedEvent.attendees;
+                        event.numAttendees = refreshedEvent.numAttendees;
                         event.registered = refreshedEvent.registered;
                     },
                     function(result, status) { // failure

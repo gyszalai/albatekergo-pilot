@@ -20,9 +20,9 @@ module.exports = function (config, logger, eventService) {
                 if (events) {
                     events.forEach(function(event) {
                         event.registered = eventService.isUserRegisteredToEvent(event, req.user.email);
-                        logger.info("event: ", event.date, event.time);
-                        logger.info("registered: ", event.registered);
-                        eventService.removeEmailAddresses(event);
+                        logger.debug("event: ", event.date, event.time);
+                        logger.debug("registered: ", event.registered);
+                        removeAttendeesFromEvent(event);
                     });
                 }
                 res.json(events);
@@ -38,7 +38,7 @@ module.exports = function (config, logger, eventService) {
                 } else if (event) {
                     event.registered = eventService.isUserRegisteredToEvent(event, req.user.email);
                     if (!req.user.isAdmin) {
-                        eventService.removeEmailAddresses(event);
+                        removeAttendeesFromEvent(event);
                     }
                     res.json(event);
                 } else {
@@ -68,6 +68,7 @@ module.exports = function (config, logger, eventService) {
                     if (err) {
                         res.json(err);
                     } else if (result.status === "OK") {
+                        removeAttendeesFromEvent(result.event);
                         res.json(result.event);
                     } else {
                         res.status(404);
@@ -93,6 +94,7 @@ module.exports = function (config, logger, eventService) {
                     if (err) {
                         res.json(err);
                     } else if (result.status === "OK") {
+                        removeAttendeesFromEvent(result.event);
                         res.json(result.event);
                     } else {
                         res.status(404);
@@ -100,6 +102,15 @@ module.exports = function (config, logger, eventService) {
                 });
             }
         });
+
+        function removeAttendeesFromEvent(event) {
+            if (event.attendees) {
+                event.numAttendees = event.attendees.length;
+                delete event.attendees;
+            } else {
+                event.numAttendees = 0;
+            }
+        }
 
     return router;
 

@@ -3,12 +3,11 @@
 /**
  * Module object factory.
  * @param userDb The NeDB database where users are stored
+ * @param adminDb The NeDB database where admin users are stored
  * @param logger Logger
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-module.exports = function(userDb, logger) {
-    var db = userDb;
-    var logger = logger;
+module.exports = function(userDb, adminDb, logger) {
     
     return {
 
@@ -18,7 +17,7 @@ module.exports = function(userDb, logger) {
          * @author Gyula Szalai <gyszalai@gmail.com>
          */
         getAll: function getAll( callback ) {
-            db.find({}, function(err, result) {
+            userDb.find({}, function(err, result) {
                 if(err || !result) callback(err);
                 else callback(null, result);
             });
@@ -30,9 +29,25 @@ module.exports = function(userDb, logger) {
          * @param callback Callback
          */
         find: function find(id, callback ){
-            db.findOne({_id: id}, function(err, result){
-                if(err) callback(err);
-                else callback(null, result);
+            userDb.findOne({_id: id}, function(err, user){
+                logger.debug("UserService.find, err: " + err + ", user: " + user);
+                if(err || !user) {
+                    callback(err);
+                }
+                else {
+                    logger.debug("User found: " + user);
+                    adminDb.find({_id: user.email}, function(err, adminUser) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            if (adminUser) {
+                                logger.info("User is admin: " + user);
+                                user.isAdmin = true;
+                            }
+                            callback(null, user);
+                        }
+                    });
+                }
             });
         },
 
@@ -44,16 +59,17 @@ module.exports = function(userDb, logger) {
          * @author Gyula Szalai <gyszalai@gmail.com>
          */
         insertOrUpdate: function insertOrUpdate( user, callback ) {
-            db.find({_id: user._id}, function(err, existingUser) {
+            userDb.findOne({_id: user._id}, function(err, existingUser) {
+                logger.debug("UserService.insertOrUpdate, err: " + err + ", existingUser: " + existingUser);
                 if (!existingUser) {
                     logger.debug("User does not exist yet, inserting");
-                    db.insert(user, function(err, saved){
+                    userDb.insert(user, function(err, saved){
                         if(err) callback(err);
                         else callback(null, saved);
                     });
                 } else {
                     logger.debug("User already exists, updating");
-                    db.update({_id: user._id}, user, function(err, saved){
+                    userDb.update({_id: user._id}, user, function(err, numUpdated){
                         if(err) callback(err);
                         else callback(null, user);
                     });

@@ -28,6 +28,42 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
         return deferred.promise;
     };
     
+    this.getEventsAdmin = function getEventsAdmin() { 
+        var deferred = $q.defer();
+        $http.get("/api/admin/events")
+            .success(function(result, status) {
+                $log.debug("getEventsAdmin, status: " + status);
+                $log.debug("getEventsAdmin, result: " + JSON.stringify(result));
+                deferred.resolve(result);
+            })
+            .error(function(data, status, headers) {
+                $log.debug("getEventsAdmin error: ");
+                $log.debug("    data: " + data);
+                $log.debug("    status: " + status);
+                $log.debug("    headers: " + JSON.stringify(headers));
+                deferred.reject(data, status);
+            });
+        return deferred.promise;
+    };
+    
+    this.createEvent = function createEvent(event) { 
+        var deferred = $q.defer();
+        $http.post("/api/admin/events", event)
+            .success(function(result, status) {
+                $log.debug("createEventAdmin, status: " + status);
+                $log.debug("createEventAdmin, result: " + JSON.stringify(result));
+                deferred.resolve(result);
+            })
+            .error(function(data, status, headers) {
+                $log.debug("createEventAdmin error: ");
+                $log.debug("    data: " + data);
+                $log.debug("    status: " + status);
+                $log.debug("    headers: " + JSON.stringify(headers));
+                deferred.reject(data, status);
+            });
+        return deferred.promise;
+    };
+    
     this.registerToEvent = function(eventId) { 
         var deferred = $q.defer();
         UserService.getUser().then(

@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="lib/clockpicker/dist/bootstrap-clockpicker.min.css">
         
         <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css">
 
@@ -23,13 +24,18 @@
         <script src="lib/moment/min/moment.min.js"></script>
         <script src="lib/moment/locale/hu.js"></script>
         
+        <script type="text/javascript" src="lib/clockpicker/dist/bootstrap-clockpicker.min.js"></script>
+        
         <script src="js/albatekergo.js"></script>
         <script src="js/main.ctrl.js"></script>
         <script src="js/home.ctrl.js"></script>
         <script src="js/calendar.ctrl.js"></script>
         <script src="js/calendar.directive.js"></script>
+        <script src="js/clockpicker.directive.js"></script>
         <script src="js/week.ctrl.js"></script>
         <script src="js/week.directive.js"></script>
+        <script src="js/week.admin.ctrl.js"></script>
+        <script src="js/week.admin.directive.js"></script>
         <script src="js/user.service.client.js"></script>
         <script src="js/event.service.client.js"></script>
         
@@ -56,7 +62,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li ng-show="main.user.isAdmin" role="presentation"><a href="#">Adminisztráció <span class="sr-only">(current)</span></a></li>
+                        <li ng-show="main.user.isAdmin" role="presentation"><a href="#/WeekAdmin">Adminisztráció</a></li>
                         <li role="presentation"><a href="#/Week">Helyfoglalás</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

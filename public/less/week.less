@@ -11,7 +11,7 @@
 }
 
 @border-colour:#CCC;
-week {
+week, week-admin {
     float:left;
     display:block;
     .border-box;
@@ -21,6 +21,7 @@ week {
     border:solid 1px @border-colour;
     margin-bottom:10px;
     
+    @warning-colour:#e08080;
     @secondary-colour:#2875C7;
     @spacing:10px;
     @icon-width:40px;
@@ -110,6 +111,18 @@ week {
                 margin-top: 5px;
                 padding-top: 10px;
                 
+                >.createEvent {
+                    margin-bottom: 5px;
+                    >i {
+                        cursor:pointer;
+                        color:@secondary-colour;
+                        opacity: 0.5;
+                        &:hover {
+                            opacity: 1.0;
+                        }
+                    }
+                }
+                
                 >div.event {
                     border-radius: 5px;
                     padding: 5px;
@@ -125,12 +138,14 @@ week {
                         text-align: left;
                         border-radius: 3px;
                         padding: 3px;
+                        background-color: white;
+                        overflow: hidden;
                         
                         >.time {
                             color: #404040;
                         }
                         
-                        >.host {
+                        >.trainer {
                             color: #404040;
                             margin-left: 5px;
                         }
@@ -140,23 +155,12 @@ week {
                         color: white;
                         font-weight: 700;
                         background-color: #80e080;
-                        
-                        >.eventHeader {
-                            /*background-color: #c0e0c0;*/
-                            background-color: white;
-                        }
-                        
                     }
                     
                     &.noFreeSlots {
                         color: white;
                         font-weight: 700;
                         background-color: #e08080;
-                        
-                        >.eventHeader {
-                            background-color: white;
-                            /*background-color: #e0c0c0;*/
-                        }
                     }
                     
                     >.attendeesCount {
@@ -169,7 +173,20 @@ week {
                         >img {
                             border-radius: 15px;
                         }
-                        
+                    }
+                    
+                    >.deleteEvent {
+                        text-align: right;
+                        margin-top: 15px;
+                        margin-right: 3px;
+                        >i {
+                            cursor:pointer;
+                            color:@warning-colour;
+                            opacity: 0.5;
+                            &:hover {
+                                opacity: 1.0;
+                            }
+                        }
                     }
                     
                 }
@@ -186,4 +203,18 @@ week {
             padding-top: 5px;
         }
     }
+    
 }
+
+.event-details {
+    div.trainer {
+        background-color: red;
+    }
+
+    >div.attendees {
+        >.attendee {
+            background-color: green;
+        }
+    }
+}
+

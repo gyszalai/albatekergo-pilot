@@ -17,13 +17,14 @@
     <span class="day"
           ng-class="{ today: day.isToday}" 
           ng-repeat="day in days">
-    
+            
         <div class="events">
+            <div class="createEvent"><i class="fa fa-plus-circle fa-2x" ng-click="createEvent(day)"></i></div>
             <div class="event" ng-repeat="event in day.events" ng-click="select(event)"
                  ng-class="{'hasFreeSlots': event.hasFreeSlots, 'noFreeSlots': !event.hasFreeSlots}">
-                <div class="eventHeader"><span class="time">{{event.time}}</span><span class="trainer">{{event.trainer}}</span><i ng-show="event.registered" class="trainer fa fa-check-circle"></i></div>
-                <div class="attendeesCount">{{event.numAttendees}} résztvevő</div>
-                <div class="userAvatar" ng-show="event.registered"><img width="30" height="30" ng-src="{{user.imageUrl}}"></div>
+                <div class="eventHeader"><span class="time">{{event.time}}</span><span class="trainer">{{event.trainer}}</span></div>
+                <div class="attendeesCount">{{event.attendees.length}} / {{event.maxAttendees}} résztvevő</div>
+                <div class="deleteEvent"><i class="fa fa-minus-circle fa-2x" ng-click="deleteEvent(event)"></i></div>
             </div>
         </div>
 

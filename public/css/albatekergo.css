@@ -17,4 +17,7 @@
 .modal-backdrop.am-fade.ng-leave.ng-leave-active {
   opacity: 0;
 }
+.top-buffer {
+  margin-top: 10px;
+}
 /*# sourceMappingURL=albatekergo.css.map */

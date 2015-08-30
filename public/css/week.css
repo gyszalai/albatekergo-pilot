@@ -2,7 +2,8 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-week {
+week,
+week-admin {
   float: left;
   display: block;
   box-sizing: border-box;
@@ -13,20 +14,23 @@ week {
   border: solid 1px #cccccc;
   margin-bottom: 10px;
 }
-week > div.week-header {
+week > div.week-header,
+week-admin > div.week-header {
   float: left;
   width: 100%;
   background: #2875c7;
   height: 40px;
   color: white;
 }
-week > div.week-header > * {
+week > div.week-header > *,
+week-admin > div.week-header > * {
   height: 40px;
   line-height: 40px !important;
   display: inline-block;
   vertical-align: middle;
 }
-week > div.week-header > i {
+week > div.week-header > i,
+week-admin > div.week-header > i {
   float: left;
   width: 40px;
   font-size: 1.125em;
@@ -37,14 +41,17 @@ week > div.week-header > i {
   padding: 0 10px;
   cursor: pointer;
 }
-week > div.week-header > i.fa-angle-left {
+week > div.week-header > i.fa-angle-left,
+week-admin > div.week-header > i.fa-angle-left {
   text-align: left;
 }
-week > div.week-header > i.fa-angle-right {
+week > div.week-header > i.fa-angle-right,
+week-admin > div.week-header > i.fa-angle-right {
   text-align: right;
   margin-left: -40px;
 }
-week > div.week-header > span {
+week > div.week-header > span,
+week-admin > div.week-header > span {
   float: left;
   width: 100%;
   font-weight: bold;
@@ -57,15 +64,18 @@ week > div.week-header > span {
   padding-right: 40px;
   color: inherit;
 }
-week > div.week {
+week > div.week,
+week-admin > div.week {
   float: left;
   width: 100%;
   border-top: solid 1px #cccccc;
 }
-week > div.week:first-child {
+week > div.week:first-child,
+week-admin > div.week:first-child {
   border-top: none;
 }
-week > div.week > span.day {
+week > div.week > span.day,
+week-admin > div.week > span.day {
   float: left;
   width: 14.28571429%;
   box-sizing: border-box;
@@ -79,22 +89,41 @@ week > div.week > span.day {
   background: white;
   color: black;
 }
-week > div.week > span.day:first-child {
+week > div.week > span.day:first-child,
+week-admin > div.week > span.day:first-child {
   border-left: none;
 }
-week > div.week > span.day.today {
+week > div.week > span.day.today,
+week-admin > div.week > span.day.today {
   background: #E3F2FF;
 }
-week > div.week > span.day.selected {
+week > div.week > span.day.selected,
+week-admin > div.week > span.day.selected {
   background: #CBE1E9;
   color: white;
 }
-week > div.week > span.day > div.events {
+week > div.week > span.day > div.events,
+week-admin > div.week > span.day > div.events {
   display: block;
   margin-top: 5px;
   padding-top: 10px;
 }
-week > div.week > span.day > div.events > div.event {
+week > div.week > span.day > div.events > .createEvent,
+week-admin > div.week > span.day > div.events > .createEvent {
+  margin-bottom: 5px;
+}
+week > div.week > span.day > div.events > .createEvent > i,
+week-admin > div.week > span.day > div.events > .createEvent > i {
+  cursor: pointer;
+  color: #2875c7;
+  opacity: 0.5;
+}
+week > div.week > span.day > div.events > .createEvent > i:hover,
+week-admin > div.week > span.day > div.events > .createEvent > i:hover {
+  opacity: 1.0;
+}
+week > div.week > span.day > div.events > div.event,
+week-admin > div.week > span.day > div.events > div.event {
   border-radius: 5px;
   padding: 5px;
   margin: 5px;
@@ -103,53 +132,78 @@ week > div.week > span.day > div.events > div.event {
   height: 90px;
   cursor: pointer;
 }
-week > div.week > span.day > div.events > div.event > .eventHeader {
+week > div.week > span.day > div.events > div.event > .eventHeader,
+week-admin > div.week > span.day > div.events > div.event > .eventHeader {
   font-size: larger;
   font-weight: 900;
   text-align: left;
   border-radius: 3px;
   padding: 3px;
+  background-color: white;
+  overflow: hidden;
 }
-week > div.week > span.day > div.events > div.event > .eventHeader > .time {
+week > div.week > span.day > div.events > div.event > .eventHeader > .time,
+week-admin > div.week > span.day > div.events > div.event > .eventHeader > .time {
   color: #404040;
 }
-week > div.week > span.day > div.events > div.event > .eventHeader > .host {
+week > div.week > span.day > div.events > div.event > .eventHeader > .trainer,
+week-admin > div.week > span.day > div.events > div.event > .eventHeader > .trainer {
   color: #404040;
   margin-left: 5px;
 }
-week > div.week > span.day > div.events > div.event.hasFreeSlots {
+week > div.week > span.day > div.events > div.event.hasFreeSlots,
+week-admin > div.week > span.day > div.events > div.event.hasFreeSlots {
   color: white;
   font-weight: 700;
   background-color: #80e080;
 }
-week > div.week > span.day > div.events > div.event.hasFreeSlots > .eventHeader {
-  /*background-color: #c0e0c0;*/
-  background-color: white;
-}
-week > div.week > span.day > div.events > div.event.noFreeSlots {
+week > div.week > span.day > div.events > div.event.noFreeSlots,
+week-admin > div.week > span.day > div.events > div.event.noFreeSlots {
   color: white;
   font-weight: 700;
   background-color: #e08080;
 }
-week > div.week > span.day > div.events > div.event.noFreeSlots > .eventHeader {
-  background-color: white;
-  /*background-color: #e0c0c0;*/
-}
-week > div.week > span.day > div.events > div.event > .attendeesCount {
+week > div.week > span.day > div.events > div.event > .attendeesCount,
+week-admin > div.week > span.day > div.events > div.event > .attendeesCount {
   padding-top: 3px;
 }
-week > div.week > span.day > div.events > div.event > .userAvatar {
+week > div.week > span.day > div.events > div.event > .userAvatar,
+week-admin > div.week > span.day > div.events > div.event > .userAvatar {
   padding-top: 5px;
 }
-week > div.week > span.day > div.events > div.event > .userAvatar > img {
+week > div.week > span.day > div.events > div.event > .userAvatar > img,
+week-admin > div.week > span.day > div.events > div.event > .userAvatar > img {
   border-radius: 15px;
 }
-week > div.week.names > span {
+week > div.week > span.day > div.events > div.event > .deleteEvent,
+week-admin > div.week > span.day > div.events > div.event > .deleteEvent {
+  text-align: right;
+  margin-top: 15px;
+  margin-right: 3px;
+}
+week > div.week > span.day > div.events > div.event > .deleteEvent > i,
+week-admin > div.week > span.day > div.events > div.event > .deleteEvent > i {
+  cursor: pointer;
+  color: #e08080;
+  opacity: 0.5;
+}
+week > div.week > span.day > div.events > div.event > .deleteEvent > i:hover,
+week-admin > div.week > span.day > div.events > div.event > .deleteEvent > i:hover {
+  opacity: 1.0;
+}
+week > div.week.names > span,
+week-admin > div.week.names > span {
   height: 45px;
   display: inline-block;
   vertical-align: middle;
   color: #2875c7;
   font-weight: bold;
   padding-top: 5px;
+}
+.event-details div.trainer {
+  background-color: red;
+}
+.event-details > div.attendees > .attendee {
+  background-color: green;
 }
 /*# sourceMappingURL=week.css.map */

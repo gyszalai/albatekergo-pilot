@@ -30,6 +30,10 @@ albatekergoApp.config(['$routeProvider', function($routeProvider) {
             controller: 'WeekController',
             templateUrl: 'partials/Week.html'
         })
+        .when('/WeekAdmin', {
+            controller: 'WeekAdminController',
+            templateUrl: 'partials/WeekAdmin.html'
+        })
         .otherwise({
             redirectTo: '/Home'
         });

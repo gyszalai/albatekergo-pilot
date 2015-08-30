@@ -1,0 +1,59 @@
+<div class="modal create-event" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" ng-show="title">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title" ng-bind-html="title"></h4>
+            </div>
+            <div class="modal-body">
+                
+                <div class="container-fluid">
+                
+                    <form class="form-horizontal" ng-submit="">
+                        <div class="row">
+                            <div class="form-group">
+                                <!--<input class="form-control col-xs-3" type="text" id="date" name="date" value="{{day.date.format('YYYY.MM.DD')}}">-->
+                                <label class="control-label col-xs-3">Időpont</label>
+                                <div class="col-xs-3">
+                                    <div data-clock-picker class="clockpicker input-group" ng-model="newEvent.time">
+                                        <input id="time" name="time" type="text" class="form-control" />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-buffer">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3">Vezető</label>
+                                <div class="col-xs-6">
+                                    <select class="form-control" id="trainer" name="trainer" ng-model="newEvent.trainer">
+                                        <option value="" selected disabled>Válassz oktatót</option>
+                                        <option>Ági</option>
+                                        <option>Zoli</option>
+                                        <option>Péter</option>
+                                        <option>Valaki</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3">Max. résztvevő</label>
+                                <div class="col-xs-2">
+                                    <input id="maxAttendees" name="maxAttendees" type="number" class="form-control" length="3" ng-model="newEvent.maxAttendees" placeholder="Max. résztvevő"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-buffer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$hide()">Mégsem</button>
+                <button type="button" class="btn btn-primary" ng-click="createEvent()">Létrehozás</button>
+            </div>
+        </div>
+    </div>
+</div>
+

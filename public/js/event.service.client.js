@@ -28,7 +28,7 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
         return deferred.promise;
     };
     
-    this.getEventsAdmin = function getEventsAdmin() { 
+    this.getEventsAdmin = function getEventsAdmin(startDay) { 
         var deferred = $q.defer();
         $http.get("/api/admin/events", {params: {startDay: startDay.format("YYYY-MM-DD")}})
             .success(function(result, status) {

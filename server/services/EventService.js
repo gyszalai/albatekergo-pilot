@@ -20,7 +20,7 @@ module.exports = function(eventDb, logger) {
           * @author Gyula Szalai <gyszalai@gmail.com>
           */
         getAll: function getAll(startDay, callback ) {
-            db.find({date: {$gte: startDay}}, function(err, result) {
+            db.find({date: {$gte: startDay}}).sort({date: 1, time: 1}).exec(function(err, result) {
                 if(err || !result) callback(err);
                 else callback(null, result);
             });

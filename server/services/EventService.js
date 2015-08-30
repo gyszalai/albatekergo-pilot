@@ -19,8 +19,8 @@ module.exports = function(eventDb, logger) {
           * @param callback Callback (err, result)
           * @author Gyula Szalai <gyszalai@gmail.com>
           */
-        getAll: function getAll( callback ) {
-            db.find({}, function(err, result) {
+        getAll: function getAll(startDay, callback ) {
+            db.find({date: {$gte: startDay}}, function(err, result) {
                 if(err || !result) callback(err);
                 else callback(null, result);
             });

@@ -16,7 +16,9 @@ module.exports = function (config, logger, eventService) {
     
     router.route('/events')
         .get(function (req, res) {
-            eventService.getAll(function(err, events) {
+            var startDay = req.query.startDay;
+            logger.debug("/admin/events: startDay: " + startDay);
+            eventService.getAll(startDay, function(err, events) {
                 if (events) {
                     events.forEach(function(event) {
                         event.registered = eventService.isUserRegisteredToEvent(event, req.user.email);

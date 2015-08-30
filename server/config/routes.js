@@ -16,17 +16,23 @@ module.exports = function (config, logger, eventService, trainerService) {
 
     router.route('/events')
         .get(function (req, res) {
-            eventService.getAll(function(err, events) {
-                if (events) {
-                    events.forEach(function(event) {
-                        event.registered = eventService.isUserRegisteredToEvent(event, req.user.email);
-                        logger.debug("event: ", event.date, event.time);
-                        logger.debug("registered: ", event.registered);
-                        removeAttendeesFromEvent(event);
-                    });
-                }
-                res.json(events);
-            });
+            var startDay = req.query.startDay;
+            logger.debug("/events: startDay: " + startDay);
+            if (startDay) {
+                eventService.getAll(startDay, function(err, events) {
+                    if (events) {
+                        events.forEach(function(event) {
+                            event.registered = eventService.isUserRegisteredToEvent(event, req.user.email);
+                            logger.debug("event: ", event.date, event.time);
+                            logger.debug("registered: ", event.registered);
+                            removeAttendeesFromEvent(event);
+                        });
+                    }
+                    res.json(events);
+                });
+            } else {
+                res.status(405).send("startDay parameter missing");
+            }
         });
 
     router.route('/events/:id')

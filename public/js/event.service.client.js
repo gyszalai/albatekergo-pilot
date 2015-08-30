@@ -10,9 +10,9 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
         selectedEvent = event;
     };
 
-    this.getEvents = function getEvents() { 
+    this.getEvents = function getEvents(startDay) { 
         var deferred = $q.defer();
-        $http.get("/api/events")
+        $http.get("/api/events", {params: {startDay: startDay.format("YYYY-MM-DD")}})
             .success(function(result, status) {
                 $log.debug("getEvents, status: " + status);
                 $log.debug("getEvents, result: " + JSON.stringify(result));
@@ -30,7 +30,7 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
     
     this.getEventsAdmin = function getEventsAdmin() { 
         var deferred = $q.defer();
-        $http.get("/api/admin/events")
+        $http.get("/api/admin/events", {params: {startDay: startDay.format("YYYY-MM-DD")}})
             .success(function(result, status) {
                 $log.debug("getEventsAdmin, status: " + status);
                 $log.debug("getEventsAdmin, result: " + JSON.stringify(result));

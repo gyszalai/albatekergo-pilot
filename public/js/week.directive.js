@@ -11,6 +11,7 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
         link: function (scope) {
             scope.selected = _removeTime(scope.selected || moment());
             scope.currentWeek = scope.selected.clone();
+            scope.currentWeek.weekday(0);
             $log.info("******** current user: " + JSON.stringify(scope.user));
 
             var start = scope.selected.clone();
@@ -66,11 +67,11 @@ app.directive("week", ['EventService', '$log', '$modal', function (EventService,
             date = date.clone();
             date.add(1, "d");
         }
-        getEvents(scope.user, scope.days);
+        getEvents(scope.currentWeek, scope.user, scope.days);
     }
     
-    function getEvents(user, days) {
-        EventService.getEvents()
+    function getEvents(startDay, user, days) {
+        EventService.getEvents(startDay)
             .then(function(events) {
                 $log.debug("getEvents, events: " + JSON.stringify(events));
                 $log.debug("getEvents, user: " + JSON.stringify(user));

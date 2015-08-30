@@ -68,11 +68,11 @@ app.directive("weekAdmin", ['EventService', 'TrainerService', '$log', '$modal', 
             date = date.clone();
             date.add(1, "d");
         }
-        getEvents(scope.user, scope.days);
+        getEvents(scope.currentWeek, scope.user, scope.days);
     }
     
-    function getEvents(user, days) {
-        EventService.getEventsAdmin()
+    function getEvents(startDay, user, days) {
+        EventService.getEventsAdmin(startDay)
             .then(function(events) {
                 $log.debug("getEvents, events: " + JSON.stringify(events));
                 $log.debug("getEvents, user: " + JSON.stringify(user));

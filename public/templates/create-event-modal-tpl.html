@@ -24,14 +24,12 @@
                         </div>
                         <div class="row top-buffer">
                             <div class="form-group">
-                                <label class="control-label col-xs-3">Vezető</label>
+                                <label class="control-label col-xs-3">Oktató</label>
                                 <div class="col-xs-6">
-                                    <select class="form-control" id="trainer" name="trainer" ng-model="newEvent.trainer">
+                                    <select class="form-control" id="trainer" name="trainer" 
+                                            ng-model="newEvent.trainer" 
+                                            ng-options="trainer.displayName for trainer in trainers track by trainer.displayName">
                                         <option value="" selected disabled>Válassz oktatót</option>
-                                        <option>Ági</option>
-                                        <option>Zoli</option>
-                                        <option>Péter</option>
-                                        <option>Valaki</option>
                                     </select>
                                 </div>
                             </div>

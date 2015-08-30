@@ -1,6 +1,6 @@
 var app = angular.module("AlbatekergoMain");
 
-app.directive("weekAdmin", ['EventService', '$log', '$modal', function (EventService, $log, $modal) {
+app.directive("weekAdmin", ['EventService', 'TrainerService', '$log', '$modal', function (EventService, TrainerService, $log, $modal) {
     return {
         restrict: "E",
         templateUrl: "templates/week-admin-template.html",
@@ -128,6 +128,7 @@ app.directive("weekAdmin", ['EventService', '$log', '$modal', function (EventSer
                 var newEvent = $scope.newEvent;
                 newEvent.time = newEvent.time.format("HH:mm");
                 newEvent.date = day.date.format("YYYY-MM-DD");
+                newEvent.trainer = newEvent.trainer.displayName;
                 newEvent.attendees = [];
                 console.log("########## Create event: " + $scope.newEvent);
                 EventService.createEvent(newEvent).then(
@@ -141,10 +142,14 @@ app.directive("weekAdmin", ['EventService', '$log', '$modal', function (EventSer
             };
             
             $scope.newEvent = {
-                maxAttendees: 16,
-                time: moment("10:00", 'HH:mm'),
+                maxAttendees: 16 //,
+                //time: moment("10:00", 'HH:mm')
             };
             
+            TrainerService.getTrainers().then(function (trainers) {
+                $scope.trainers = trainers;
+            });
+
             $scope.day = day;
         }
         CreateEventModalController.$inject = ['$scope'];

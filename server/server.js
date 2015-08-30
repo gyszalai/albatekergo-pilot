@@ -26,12 +26,14 @@ var Datastore = require('nedb');
 var eventDb = new Datastore({ filename: config.dbRoot + '/event.db', autoload: true });
 var userDb = new Datastore({ filename: config.dbRoot + '/user.db', autoload: true });
 var adminDb = new Datastore({ filename: config.dbRoot + '/admin.db', autoload: true });
+var trainerDb = new Datastore({ filename: config.dbRoot + '/trainer.db', autoload: true });
 
 var eventService = require('./services/EventService')(eventDb, logger);
 var userService = require('./services/UserService')(userDb, adminDb, logger);
+var trainerService = require('./services/UserService')(trainerDb, logger);
 
 var app = express();
-var routes = require('./config/routes')(config, logger, eventService);
+var routes = require('./config/routes')(config, logger, eventService, trainerService);
 var routes_admin = require('./config/routes.admin')(config, logger, eventService);
 
 var port = 8100;

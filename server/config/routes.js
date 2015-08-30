@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-module.exports = function (config, logger, eventService) {
+module.exports = function (config, logger, eventService, trainerService) {
 
     /**  Middleware to check if a user is logged in */
     function isLoggedIn(req, res, next) {
@@ -101,6 +101,13 @@ module.exports = function (config, logger, eventService) {
                     }
                 });
             }
+        });
+        
+    router.route('/trainers')
+        .get(function (req, res) {
+            trainerService.getAll(function(err, trainers) {
+                res.json(trainers);
+            });
         });
 
         function removeAttendeesFromEvent(event) {

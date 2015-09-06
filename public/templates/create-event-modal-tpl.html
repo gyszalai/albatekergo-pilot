@@ -28,7 +28,7 @@
                                 <div class="col-xs-6">
                                     <select class="form-control" id="trainer" name="trainer" 
                                             ng-model="newEvent.trainer" 
-                                            ng-options="trainer.displayName for trainer in trainers track by trainer.displayName">
+                                            ng-options="trainer.name for trainer in trainers track by trainer.name">
                                         <option value="" selected disabled>Válassz oktatót</option>
                                     </select>
                                 </div>

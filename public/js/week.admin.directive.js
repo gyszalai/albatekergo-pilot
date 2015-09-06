@@ -128,7 +128,7 @@ app.directive("weekAdmin", ['EventService', 'TrainerService', '$log', '$modal', 
                 var newEvent = $scope.newEvent;
                 newEvent.time = newEvent.time.format("HH:mm");
                 newEvent.date = day.date.format("YYYY-MM-DD");
-                newEvent.trainer = newEvent.trainer.displayName;
+                newEvent.trainer = newEvent.trainer.name;
                 newEvent.attendees = [];
                 console.log("########## Create event: " + $scope.newEvent);
                 EventService.createEvent(newEvent).then(

@@ -21,7 +21,7 @@ module.exports = function (port, app, routes, routes_admin, env, config, userSer
                 if (username.valueOf() === 'dummy' && password.valueOf() === 'dummy') {
                     var user = {
                         _id: "gyszalai@gmail.com",
-                        displayName: "Gyula Szalai",
+                        name: "Gyula Szalai",
                         email: "gyszalai@gmail.com",
                         imageUrl: "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"
                     };
@@ -30,7 +30,7 @@ module.exports = function (port, app, routes, routes_admin, env, config, userSer
                     var user = {
                         _id: "gyszalai@gmail.com",
                         isAdmin: true,
-                        displayName: "Gyula Szalai",
+                        name: "Gyula Szalai",
                         email: "gyszalai@gmail.com",
                         imageUrl: "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"
                     };
@@ -53,7 +53,7 @@ module.exports = function (port, app, routes, routes_admin, env, config, userSer
             logger.info("profile: ", profile);
             logger.info("User accessToken: ", token);
 
-            var user = {_id: profile.emails[0].value, displayName: profile.displayName, email: profile.emails[0].value, imageUrl: profile.photos[0].value};
+            var user = {_id: profile.emails[0].value, name: profile.displayName, email: profile.emails[0].value, imageUrl: profile.photos[0].value};
             logger.info("User to be saved: ", user);
             userService.insertOrUpdate(user, function(err, user) {
                 logger.info("after user insert: ", err, user);

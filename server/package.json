@@ -31,6 +31,7 @@
     "cookie-session": "^1.1.0",
     "express": "^4.12.3",
     "livereload": "^0.3.7",
+    "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "morgan": "^1.5.2",
     "nedb": "^1.1.2",

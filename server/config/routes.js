@@ -1,3 +1,4 @@
+var _ = require("lodash");
 var express = require('express');
 var router = express.Router();
 
@@ -56,11 +57,7 @@ module.exports = function (config, logger, eventService, trainerService) {
     router.route('/events/:id/attendees')
         .post(function (req, res) {
             var id = req.params.id;
-            var attendee = {
-                email: req.body.email, 
-                name: req.body.displayName
-            };
-            
+            var attendee = _.pick(req.body, ["email", "name"]);            
             if (req.user.email !== attendee.email) {
                 var statusText = "User "+req.user.email+" not allowed to register attendee: " + attendee.email;
                 logger.warn(statusText);

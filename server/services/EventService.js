@@ -180,7 +180,19 @@ module.exports = function(eventDb, logger) {
                 });
             }
             return false;
+        },
+        
+        /**
+        * Checks whether it is allowed to unregister from this event
+        * 
+        * @param {Event} event
+        * @returns {boolean} true if it is allowed to unregister from the given event
+        */
+        isUnregisteringAllowed: function isUnregisteringAllowed(event) {
+            var eventDateTime = moment(event.date + " " + event.time, "YYYY-MM-DD HH:mm");
+            var hoursDiff = eventDateTime.diff(moment(), 'hours');
+            return !(hoursDiff < 5);
         }
-       
+        
     };
 };

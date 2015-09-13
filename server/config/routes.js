@@ -1,6 +1,6 @@
-var _ = require("lodash");
 var express = require('express');
 var router = express.Router();
+var _ = require('lodash');
 
 module.exports = function (config, logger, eventService, trainerService) {
 
@@ -149,10 +149,5 @@ module.exports = function (config, logger, eventService, trainerService) {
         }
     }
     
-    function unregisterAllowed() {
-        
-    }
-
     return router;
-
 };

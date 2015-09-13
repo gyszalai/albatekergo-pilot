@@ -36,8 +36,10 @@ var app = express();
 var routes = require('./server/config/routes')(config, logger, eventService, trainerService);
 var routes_admin = require('./server/config/routes.admin')(config, logger, eventService);
 
-var port = 8100;
-require('./server/config/express')(port, app, routes, routes_admin, env, config, userService, logger);
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8100;
 
-logger.info("Listening on: " + port);
-app.listen(port);
+require('./server/config/express')(server_ip_address, server_port, app, routes, routes_admin, env, config, userService, logger);
+
+logger.info("Listening on: " + server_port);
+app.listen(server_port, server_ip_address);

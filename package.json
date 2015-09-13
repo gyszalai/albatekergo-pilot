@@ -2,7 +2,7 @@
   "name": "albatekergo-pilot",
   "version": "0.1.0",
   "description": "Albatekergo idopontfoglalas pilot",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",

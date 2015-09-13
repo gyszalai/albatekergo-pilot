@@ -13,7 +13,7 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var BasicStrategy = require('passport-http').BasicStrategy
 
-module.exports = function (port, app, routes, routes_admin, env, config, userService, logger) {
+module.exports = function (host, port, app, routes, routes_admin, env, config, userService, logger) {
     
     if (env === "development") {
         passport.use(new BasicStrategy(
@@ -46,7 +46,7 @@ module.exports = function (port, app, routes, routes_admin, env, config, userSer
     passport.use(new GoogleStrategy({
             clientID: config.googleClientId,
             clientSecret: config.googleClientSecret,
-            callbackURL: 'http://localhost:'+port+'/auth/google/callback'
+            callbackURL: 'http://'+host+':'+port+'/auth/google/callback'
         },
         function(token, refreshToken, profile, done) {
 
@@ -81,7 +81,7 @@ module.exports = function (port, app, routes, routes_admin, env, config, userSer
     app.use("/", express.static(path.join(config.appRoot, "public")));
     app.use(cookieParser());
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended: true}))
+    app.use(bodyParser.urlencoded({extended: true}));
     app.use(cookieSession({ keys: ['abc1234bac123', 'bbaacceeffgghh'] }));
     app.use(passport.initialize());
     app.use(passport.session());

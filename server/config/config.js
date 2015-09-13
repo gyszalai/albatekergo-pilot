@@ -41,7 +41,7 @@ module.exports = {
         googleClientId: process.env.GOOGLE_CLIENT_ID,
         googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
         appRoot: rootPath,
-        dbRoot: '/home/gyszalai/tmp/albatekergo/production',
+        dbRoot: process.env.OPENSHIFT_DATA_DIR,
         app: {
             name: 'Albatekergő - Production'
         }

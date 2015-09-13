@@ -9,6 +9,16 @@ var path = require('path');
 rootPath = path.normalize(__dirname + '/../..');
 
 module.exports = {
+    ci: {
+        googleClientId: process.env.GOOGLE_CLIENT_ID,
+        googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        appRoot: rootPath,
+        dbRoot: '/home/gyszalai/tmp/albatekergo/ci',
+        app: {
+            name: 'Albatekergő - CI'
+        },
+        authDisabled: true
+    },
     development: {
         googleClientId: process.env.GOOGLE_CLIENT_ID,
         googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,

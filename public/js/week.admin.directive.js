@@ -142,8 +142,8 @@ app.directive("weekAdmin", ['EventService', 'TrainerService', '$log', '$modal', 
             };
             
             $scope.newEvent = {
-                maxAttendees: 16 //,
-                //time: moment("10:00", 'HH:mm')
+                maxAttendees: 16,
+                time: moment("10:00", 'HH:mm')
             };
             
             TrainerService.getTrainers().then(function (trainers) {

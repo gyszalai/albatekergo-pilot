@@ -117,15 +117,21 @@ module.exports = function (port, app, routes, routes_admin, env, config, userSer
     // Show user profile
     app.get('/profile', function(req, res) {
         logger.info("Sending user: ", JSON.stringify(req.user));
-        res.send(req.user);
+        res.status(200).send(req.user);
     });
 
-    /**  Middleware to check if a user is logged in */
+    /**  
+     * Middleware to check if a user is logged in
+     * 
+     * @param {Request} req HTTP request
+     * @param {Response} res HTTP response
+     * @param {function} next Next callback
+     */
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated()) { 
             return next(); 
         } else {
-            res.status(401).send('Not authenticated');
+            res.status(401).send({reason: "Not authenticated"});
         }
     }
 

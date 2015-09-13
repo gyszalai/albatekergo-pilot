@@ -11,7 +11,7 @@ var path = require('path');
 var winston = require('winston');
 
 var env = process.env.NODE_ENV || 'development';
-var config = require('./config/config')[env];
+var config = require('./server/config/config')[env];
 
 var logger = new (winston.Logger)({
     transports: [
@@ -28,16 +28,16 @@ var userDb = new Datastore({ filename: config.dbRoot + '/user.db', autoload: tru
 var adminDb = new Datastore({ filename: config.dbRoot + '/admin.db', autoload: true });
 var trainerDb = new Datastore({ filename: config.dbRoot + '/trainer.db', autoload: true });
 
-var eventService = require('./services/EventService')(eventDb, logger);
-var userService = require('./services/UserService')(userDb, adminDb, logger);
-var trainerService = require('./services/UserService')(trainerDb, logger);
+var eventService = require('./server/services/EventService')(eventDb, logger);
+var userService = require('./server/services/UserService')(userDb, adminDb, logger);
+var trainerService = require('./server/services/UserService')(trainerDb, logger);
 
 var app = express();
-var routes = require('./config/routes')(config, logger, eventService, trainerService);
-var routes_admin = require('./config/routes.admin')(config, logger, eventService);
+var routes = require('./server/config/routes')(config, logger, eventService, trainerService);
+var routes_admin = require('./server/config/routes.admin')(config, logger, eventService);
 
 var port = 8100;
-require('./config/express')(port, app, routes, routes_admin, env, config, userService, logger);
+require('./server/config/express')(port, app, routes, routes_admin, env, config, userService, logger);
 
 logger.info("Listening on: " + port);
 app.listen(port);

@@ -18,11 +18,8 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
                 $log.debug("getEvents, result: " + JSON.stringify(result));
                 deferred.resolve(result);
             })
-            .error(function(data, status, headers) {
-                $log.debug("getEvents error: ");
-                $log.debug("    data: " + data);
-                $log.debug("    status: " + status);
-                $log.debug("    headers: " + JSON.stringify(headers));
+            .error(function(data, status) {
+                $log.logHttpError("EventService.getEvents", data, status);
                 deferred.reject(data, status);
             });
         return deferred.promise;
@@ -36,11 +33,8 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
                 $log.debug("getEventsAdmin, result: " + JSON.stringify(result));
                 deferred.resolve(result);
             })
-            .error(function(data, status, headers) {
-                $log.debug("getEventsAdmin error: ");
-                $log.debug("    data: " + data);
-                $log.debug("    status: " + status);
-                $log.debug("    headers: " + JSON.stringify(headers));
+            .error(function(data, status) {
+                $log.logHttpError("EventService.getEventsAdmin", data, status);
                 deferred.reject(data, status);
             });
         return deferred.promise;
@@ -54,11 +48,8 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
                 $log.debug("createEventAdmin, result: " + JSON.stringify(result));
                 deferred.resolve(result);
             })
-            .error(function(data, status, headers) {
-                $log.debug("createEventAdmin error: ");
-                $log.debug("    data: " + data);
-                $log.debug("    status: " + status);
-                $log.debug("    headers: " + JSON.stringify(headers));
+            .error(function(data, status) {
+                $log.logHttpError("EventService.createEvent", data, status);
                 deferred.reject(data, status);
             });
         return deferred.promise;
@@ -75,11 +66,8 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
                         $log.debug("registerToEvent, result: " + JSON.stringify(result));
                         deferred.resolve(result);
                     })
-                    .error(function(data, status, headers) {
-                        $log.debug("Error reserving slot for day: " + event.date + " " + event.time);
-                        $log.debug("    data: " + data);
-                        $log.debug("    status: " + status);
-                        $log.debug("    headers: " + JSON.stringify(headers));
+                    .error(function(data, status) {
+                        $log.logHttpError("EventService.registerToEvent", data, status);
                         deferred.reject(data, status);
                     });
             },
@@ -100,11 +88,8 @@ angular.module('AlbatekergoMain').service('EventService', ["$q", "$http", "$log"
                         $log.debug("unregisterFromEvent, result: " + JSON.stringify(result));
                         deferred.resolve(result);
                     }).
-                    error(function(data, status, headers) {
-                        $log.debug("Error unregistering from event: " + event.date + " " + event.time);
-                        $log.debug("    data: " + data);
-                        $log.debug("    status: " + status);
-                        $log.debug("    headers: " + JSON.stringify(headers));
+                    error(function(data, status) {
+                        $log.logHttpError("EventService.unregisterFromEvent", data, status);
                         deferred.reject(data, status);
                     });
             },

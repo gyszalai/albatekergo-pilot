@@ -1,7 +1,12 @@
-/**
- * Created by gyszalai on 10/04/15.
- */
 var albatekergoApp = angular.module('AlbatekergoMain', ['ngRoute', 'ngAnimate', 'mgcrea.ngStrap']);
+
+albatekergoApp.run(['$log', function($log) {
+
+  $log.logHttpError = function (context, data, status) {
+    $log.debug('[' + context + '] error.\n    data: ' + data + '\n    status: ' + status);
+  };
+
+}]);
 
 albatekergoApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider

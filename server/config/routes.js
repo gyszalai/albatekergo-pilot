@@ -32,7 +32,7 @@ module.exports = function (config, logger, eventService, trainerService) {
                     res.json(events);
                 });
             } else {
-                res.status(405).send("startDay parameter missing");
+                res.status(400).send("startDay parameter missing");
             }
         });
 
